@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ClearView · Lifetime Access</title>
+  <style>
+    :root {
+      --bg: #0a0e14;
+      --panel: #121a24;
+      --panel-2: #1a2634;
+      --border: #2a3a4a;
+      --accent: #25D366;
+      --accent-blue: #4f9cf7;
+      --accent-gold: #f0c040;
+      --accent-rose: #e8a0a0;
+      --accent-glow: #1da851;
+      --text: #e6edf3;
+      --muted: #8b9bb0;
+      --danger: #ff5e5e;
+      --success: #2ecc71;
+      --warning: #f1c40f;
+      --premium: #c9a84c;
+      --radius: 18px;
+      --radius-sm: 12px;
+      --shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.6);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 1.5rem;
+      color: var(--text);
+      background-image: radial-gradient(circle at 15% 20%, #172232 0%, #0b0f17 70%);
+    }
+
+    .dashboard {
+      max-width: 1200px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* Logo and Branding */
+    .brand-header {
+      text-align: center;
+      padding: 0.5rem;
+      margin-bottom: -0.5rem;
+    }
+
+    .brand-logo {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, #4f9cf7 0%, #25D366 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: inline-block;
+    }
+
+    .brand-tagline {
+      font-size: 0.9rem;
+      color: var(--muted);
+      font-style: italic;
+      margin-top: 0.2rem;
+    }
+
+    /* Emotional Trust Banner */
+    .trust-banner {
+      background: linear-gradient(135deg, #1a2028 0%, #2a1a1a 100%);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      border: 1px solid #4a3a3a;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .trust-banner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, transparent 30%, rgba(240, 192, 64, 0.05) 100%);
+      pointer-events: none;
+    }
+
+    .trust-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .trust-icon {
+      font-size: 3rem;
+      flex-shrink: 0;
+      animation: gentleFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    .trust-text {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .trust-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.5px;
+    }
+
+    .trust-message {
+      font-size: 0.95rem;
+      color: var(--accent-rose);
+      line-height: 1.7;
+      font-style: italic;
+      border-left: 3px solid var(--accent-gold);
+      padding-left: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    /* Phone number entry section */
+    .phone-section {
+      background: var(--panel);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .phone-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .phone-header h2 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .emotional-note {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-style: italic;
+      margin-top: 0.3rem;
+    }
+
+    .phone-input-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .phone-input-wrapper {
+      flex: 1;
+      min-width: 250px;
+      position: relative;
+    }
+
+    .phone-input {
+      width: 100%;
+      padding: 1rem 1.2rem;
+      background: var(--panel-2);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-size: 1.2rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      transition: all 0.3s;
+      outline: none;
+    }
+
+    .phone-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 20px rgba(37, 211, 102, 0.2);
+    }
+
+    .send-whatsapp-btn {
+      background: linear-gradient(135deg, #25D366 0%, #1da851 100%);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+      white-space: nowrap;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .send-whatsapp-btn::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.2) 50%, transparent 60%);
+      animation: shimmer 3s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) rotate(45deg); }
+    }
+
+    .send-whatsapp-btn:hover {
+      background: linear-gradient(135deg, #1da851 0%, #158f42 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5);
+    }
+
+    .whatsapp-icon {
+      font-size: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Link preview */
+    .link-preview {
+      background: var(--panel-2);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      border: 1px dashed var(--accent);
+      display: none;
+      animation: slideDown 0.4s ease;
+    }
+
+    .link-preview.show {
+      display: block;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .link-url {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--accent);
+      word-break: break-all;
+      padding: 0.5rem;
+      background: #0d141d;
+      border-radius: 8px;
+      margin-top: 0.5rem;
+    }
+
+    .link-actions {
+      display: flex;
+      gap: 0.8rem;
+      margin-top: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .link-action-btn {
+      padding: 0.6rem 1.2rem;
+      border-radius: 25px;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .link-action-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--panel-2);
+    }
+
+    /* Connection status */
+    .status-section {
+      background: var(--panel);
+      padding: 1rem 1.5rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .connection-status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 500;
+    }
+
+    .status-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--warning);
+      animation: pulse 2s infinite;
+    }
+
+    .status-indicator.waiting {
+      background: var(--warning);
+      box-shadow: 0 0 10px var(--warning);
+    }
+
+    .status-indicator.connected {
+      background: var(--success);
+      box-shadow: 0 0 15px var(--success);
+      animation: none;
+    }
+
+    .status-indicator.locked {
+      background: var(--premium);
+      box-shadow: 0 0 15px var(--premium);
+      animation: none;
+    }
+
+    .status-indicator.failed {
+      background: var(--danger);
+      box-shadow: 0 0 15px var(--danger);
+      animation: none;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
+    .status-details {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .status-chip {
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      background: var(--panel-2);
+      font-size: 0.8rem;
+      border: 1px solid var(--border);
+    }
+
+    /* Main grid */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 800px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .video-card, .info-card {
+      background: var(--panel);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-header {
+      padding: 1rem 1.2rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .card-header h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .video-container {
+      flex: 1;
+      min-height: 350px;
+      background: #0a0e13;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background-image: radial-gradient(circle at 30% 40%, #1a2634 0%, #070b10 90%);
+    }
+
+    #remoteVideo {
+      width: 100%;
+      height: 100%;
+      min-height: 350px;
+      object-fit: contain;
+      background: transparent;
+      display: none;
+    }
+
+    .video-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      color: var(--muted);
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .placeholder-icon {
+      font-size: 4rem;
+      opacity: 0.5;
+    }
+
+    /* Payment Lock Overlay */
+    .payment-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(10, 14, 20, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      backdrop-filter: blur(8px);
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .payment-card {
+      background: linear-gradient(135deg, #1a2028 0%, #2a1a1a 100%);
+      border: 2px solid var(--premium);
+      border-radius: var(--radius);
+      padding: 2rem;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
+      animation: slideUp 0.6s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .payment-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    .payment-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--premium);
+      margin-bottom: 0.5rem;
+    }
+
+    .payment-subtitle {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .payment-amount {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--premium);
+      margin: 1rem 0;
+    }
+
+    .payment-features {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0;
+      text-align: left;
+    }
+
+    .payment-features li {
+      padding: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+    }
+
+    .feature-check {
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .pay-now-btn {
+      background: linear-gradient(135deg, #c9a84c 0%, #e8c96a 100%);
+      color: #1a1a1a;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: var(--radius-sm);
+      font-weight: 800;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 100%;
+      box-shadow: 0 4px 15px rgba(201, 168, 76, 0.5);
+      margin-top: 0.5rem;
+    }
+
+    .pay-now-btn:hover {
+      background: linear-gradient(135deg, #e8c96a 0%, #c9a84c 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(201, 168, 76, 0.7);
+    }
+
+    .lifetime-badge {
+      display: inline-block;
+      background: rgba(201, 168, 76, 0.2);
+      color: var(--premium);
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-top: 1rem;
+      border: 1px solid var(--premium);
+    }
+
+    .expiry-timer {
+      font-size: 1.2rem;
+      color: var(--accent-gold);
+      font-weight: 700;
+      margin: 0.5rem 0;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .info-content {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .instruction-step {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      padding: 0.8rem;
+      background: var(--panel-2);
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--accent);
+      transition: all 0.3s;
+    }
+
+    .instruction-step:hover {
+      background: #1f2d3a;
+      border-left-color: var(--accent-gold);
+    }
+
+    .step-number {
+      background: var(--accent);
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .step-text {
+      flex: 1;
+      font-size: 0.9rem;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .step-text strong {
+      color: var(--accent);
+    }
+
+    .whatsapp-preview-box {
+      background: #1a2a1e;
+      border: 1px solid #2a4a2e;
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .whatsapp-message-preview {
+      background: #0d1a12;
+      border-radius: 10px;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #c8e6c9;
+      line-height: 1.6;
+    }
+
+    .whatsapp-message-preview .highlight {
+      color: #4caf50;
+      font-weight: 600;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .log-area {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      background: #0d141d;
+      padding: 0.8rem;
+      border-radius: 10px;
+      max-height: 120px;
+      overflow-y: auto;
+      border: 1px solid #1f2d3b;
+    }
+
+    .footer-note {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.4px;
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+      font-style: italic;
+    }
+
+    .btn-icon {
+      font-size: 1.2rem;
+    }
+
+    .whatsapp-float {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--accent);
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(37, 211, 102, 0.5);
+      transition: all 0.3s;
+      border: none;
+      z-index: 100;
+    }
+
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 30px rgba(37, 211, 102, 0.7);
+    }
+
+    /* Emotional messages */
+    .emotional-message {
+      padding: 0.8rem 1rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin: 0.5rem 0;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeInUp 0.6s forwards;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .emotional-message.reassurance {
+      background: rgba(37, 211, 102, 0.1);
+      border-left: 3px solid var(--accent);
+      color: #a8d5ba;
+    }
+
+    .emotional-message.hope {
+      background: rgba(240, 192, 64, 0.1);
+      border-left: 3px solid var(--accent-gold);
+      color: #d4b87a;
+    }
+
+    .emotional-message.trust {
+      background: rgba(79, 156, 247, 0.1);
+      border-left: 3px solid var(--accent-blue);
+      color: #8ab4d8;
+    }
+
+    .emotional-message.premium {
+      background: rgba(201, 168, 76, 0.1);
+      border-left: 3px solid var(--premium);
+      color: #c9a84c;
+    }
+  </style>
+</head>
+<body>
+<div class="dashboard">
+  <!-- Brand Header -->
+  <div class="brand-header">
+    <div class="brand-logo">ClearView</div>
+    <div class="brand-tagline">Clarity Through Transparency</div>
+  </div>
+
+  <!-- Emotional Trust Banner -->
+  <div class="trust-banner">
+    <div class="trust-content">
+      <div class="trust-icon">💝</div>
+      <div class="trust-text">
+        <div class="trust-title">Trust & Transparency</div>
+        <div class="trust-message">
+          "Sometimes it's not about wanting to control someone's phone. It's about wanting reassurance when trust has been shaken. Healthy relationships are built on honesty, transparency, and mutual respect—not constant suspicion."
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phone Number Entry Section -->
+  <div class="phone-section">
+    <div class="phone-header">
+      <h2><span>📱</span> Connect With Someone You Care About</h2>
+    </div>
+    <div class="emotional-note">
+      "Every relationship deserves a chance to rebuild trust through open communication."
+    </div>
+    <div class="phone-input-group">
+      <div class="phone-input-wrapper">
+        <input type="tel" 
+               class="phone-input" 
+               id="phoneInput" 
+               placeholder="+1 (555) 123-4567" 
+               value="+1 (555) 123-4567"
+               pattern="[0-9+\-\(\) ]+">
+        <span class="country-code">🌍</span>
+      </div>
+      <button class="send-whatsapp-btn" id="sendWhatsAppBtn">
+        <span class="whatsapp-icon">💬</span>
+        <span class="btn-text">Send Connection Request</span>
+      </button>
+    </div>
+
+    <!-- Link Preview -->
+    <div class="link-preview" id="linkPreview">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <strong style="color: var(--accent);">📎 Connection Link Generated</strong>
+        <span style="font-size: 0.8rem; color: var(--muted);">Waiting for user to click</span>
+      </div>
+      <div class="link-url" id="generatedLink">https://bigza256.github.io/ClearView/?connect=ABC123XYZ</div>
+      <div class="emotional-message reassurance" id="waitingMessage" style="display: none;">
+        💚 "You've taken the first step towards rebuilding trust. Your connection request is on its way."
+      </div>
+      <div class="link-actions">
+        <button class="link-action-btn" id="copyLinkBtn">
+          <span>📋</span> Copy Link
+        </button>
+        <button class="link-action-btn" id="openWhatsAppBtn">
+          <span>💬</span> Open WhatsApp
+        </button>
+        <button class="link-action-btn" id="simulateClickBtn">
+          <span>🖱️</span> Simulate User Click
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Connection Status -->
+  <div class="status-section">
+    <div class="connection-status">
+      <span class="status-indicator waiting" id="statusIndicator"></span>
+      <span id="statusText">Take a deep breath. Trust begins with a single step.</span>
+    </div>
+    <div class="status-details">
+      <span class="status-chip" id="phoneChip">📱 +1 (555) 123-4567</span>
+      <span class="status-chip" id="linkChip">🔗 Not generated</span>
+      <span class="status-chip" id="accessChip" style="display: none;">🔒 Access Locked</span>
+    </div>
+  </div>
+
+  <!-- Main Grid -->
+  <div class="main-grid">
+    <!-- Video Card -->
+    <div class="video-card">
+      <div class="card-header">
+        <h3><span>🎥</span> Live Connection View</h3>
+        <span style="font-size: 0.8rem; color: var(--muted);" id="videoStatus">ClearView Stream</span>
+      </div>
+      <div class="video-container" id="videoContainer">
+        <video id="remoteVideo" autoplay playsinline muted></video>
+        <div class="video-placeholder" id="videoPlaceholder">
+          <div class="placeholder-icon">💫</div>
+          <strong>Building a bridge of trust...</strong>
+          <span>Send a connection request to begin</span>
+          <span style="font-size: 0.8rem; color: var(--muted);">ClearView — Transparency creates understanding</span>
+        </div>
+        <!-- Payment Overlay (initially hidden) -->
+        <div class="payment-overlay" id="paymentOverlay" style="display: none;">
+          <div class="payment-card">
+            <div class="payment-icon">🔒</div>
+            <div class="payment-title">Premium Access Required</div>
+            <div class="payment-subtitle">
+              They've accepted your connection request. Unlock full live view for complete transparency with ClearView.
+            </div>
+            <div class="payment-amount">$10</div>
+            <div class="expiry-timer" id="expiryTimer">⏰ Expires in: 60:00</div>
+            <ul class="payment-features">
+              <li><span class="feature-check">✓</span> Full live video access</li>
+              <li><span class="feature-check">✓</span> One-time payment only</li>
+              <li><span class="feature-check">✓</span> Lifetime connection</li>
+              <li><span class="feature-check">✓</span> Never expires until they change phones</li>
+            </ul>
+            <button class="pay-now-btn" id="payNowBtn">
+              💳 Pay $10 Now
+            </button>
+            <div class="lifetime-badge">🔒 LIFETIME ACCESS</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info Card -->
+    <div class="info-card">
+      <div class="card-header">
+        <h3><span>📋</span> Your Journey to Clarity</h3>
+      </div>
+      <div class="info-content">
+        <div class="instruction-step">
+          <div class="step-number">1</div>
+          <div class="step-text">
+            <strong>Enter their number</strong> — the person you want to reconnect with
+          </div>
+        </div>
+        <div class="instruction-step">
+          <div class="step-number">2</div>
+          <div class="step-text">
+            <strong>Send a connection request</strong> — be honest about your intentions
+          </div>
+        </div>
+        <div class="instruction-step">
+          <div class="step-number">3</div>
+          <div class="step-text">
+            <strong>Wait for their response</strong> — trust requires consent from both sides
+          </div>
+        </div>
+        <div class="instruction-step">
+          <div class="step-number">4</div>
+          <div class="step-text">
+            When they <strong>click the link</strong>, you'll see them live — transparency in action
+          </div>
+        </div>
+        <div class="instruction-step">
+          <div class="step-number">5</div>
+          <div class="step-text">
+            <strong>Unlock lifetime access</strong> — one payment of $10, forever connected
+          </div>
+        </div>
+
+        <!-- WhatsApp Message Preview -->
+        <div class="whatsapp-preview-box">
+          <div style="font-size: 0.8rem; color: var(--muted); margin-bottom: 0.5rem;">
+            💬 Your WhatsApp message:
+          </div>
+          <div class="whatsapp-message-preview" id="whatsappMessagePreview">
+            🤝 <strong>Connection Request</strong><br>
+            I'd like us to be more open with each other.<br>
+            <span class="highlight" id="previewLink">Click here to connect securely via ClearView</span><br>
+            <small style="color: #6a8a6a;">This is about trust, transparency, and moving forward together</small>
+          </div>
+        </div>
+
+        <!-- Emotional messages -->
+        <div class="emotional-message hope" id="hopeMessage" style="display: none;">
+          🌟 "Every strong relationship weathers storms. This moment of vulnerability could be your new beginning."
+        </div>
+        
+        <div class="emotional-message trust" id="trustMessage" style="display: none;">
+          🤍 "Trust isn't built overnight, but every honest step brings you closer to peace of mind."
+        </div>
+
+        <div class="emotional-message premium" id="premiumMessage" style="display: none;">
+          💎 "You've invested in trust with ClearView. This connection now lasts a lifetime."
+        </div>
+
+        <!-- Connection Log -->
+        <div class="log-area" id="logArea">
+          <div>Your journey begins with intention, not suspicion.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    "See clearly. Trust fully. Connect deeply." — ClearView
+  </div>
+</div>
+
+<!-- Floating WhatsApp Button -->
+<button class="whatsapp-float" id="whatsappFloat" title="Share Connection Request">
+  💬
+</button>
+
+<script>
+  (function() {
+    // DOM Elements
+    const phoneInput = document.getElementById('phoneInput');
+    const sendWhatsAppBtn = document.getElementById('sendWhatsAppBtn');
+    const linkPreview = document.getElementById('linkPreview');
+    const generatedLink = document.getElementById('generatedLink');
+    const copyLinkBtn = document.getElementById('copyLinkBtn');
+    const openWhatsAppBtn = document.getElementById('openWhatsAppBtn');
+    const simulateClickBtn = document.getElementById('simulateClickBtn');
+    const statusIndicator = document.getElementById('statusIndicator');
+    const statusText = document.getElementById('statusText');
+    const phoneChip = document.getElementById('phoneChip');
+    const linkChip = document.getElementById('linkChip');
+    const accessChip = document.getElementById('accessChip');
+    const videoStatus = document.getElementById('videoStatus');
+    const remoteVideo = document.getElementById('remoteVideo');
+    const videoPlaceholder = document.getElementById('videoPlaceholder');
+    const videoContainer = document.getElementById('videoContainer');
+    const paymentOverlay = document.getElementById('paymentOverlay');
+    const payNowBtn = document.getElementById('payNowBtn');
+    const expiryTimer = document.getElementById('expiryTimer');
+    const logArea = document.getElementById('logArea');
+    const whatsappMessagePreview = document.getElementById('whatsappMessagePreview');
+    const previewLink = document.getElementById('previewLink');
+    const whatsappFloat = document.getElementById('whatsappFloat');
+    const waitingMessage = document.getElementById('waitingMessage');
+    const hopeMessage = document.getElementById('hopeMessage');
+    const trustMessage = document.getElementById('trustMessage');
+    const premiumMessage = document.getElementById('premiumMessage');
+
+    // State
+    let currentPhoneNumber = '+1 (555) 123-4567';
+    let connectionLink = '';
+    let isConnected = false;
+    let isPaid = false;
+    let linkGenerated = false;
+    let linkSent = false;
+    let linkClicked = false;
+    let timerInterval = null;
+    let secondsRemaining = 3600; // 1 hour in seconds
+    let lifetimeAccess = false;
+
+    // Generate unique link using GitHub Pages URL
+    function generateConnectionLink(phoneNumber) {
+      const cleanNumber = phoneNumber.replace(/[^0-9]/g, '');
+      const hash = btoa(cleanNumber).replace(/[^a-zA-Z0-9]/g, '').substring(0, 8);
+      const randomPart = Math.random().toString(36).substring(2, 6).toUpperCase();
+      // Use the actual GitHub Pages URL
+      return `https://bigza256.github.io/ClearView/?connect=${hash}${randomPart}`;
+    }
+
+    // Format phone number for WhatsApp
+    function formatPhoneForWhatsApp(phoneNumber) {
+      return phoneNumber.replace(/[^0-9+]/g, '');
+    }
+
+    // Create WhatsApp message with working link
+    function createWhatsAppMessage(link) {
+      return `🤝 *Connection Request*\n\nI'd like us to be more open with each other. This is about trust and transparency.\n\n👉 *Click here to connect securely via ClearView:* ${link}\n\n_See clearly. Trust fully. Connect deeply._`;
+    }
+
+    // Format timer display
+    function formatTime(seconds) {
+      const hours = Math.floor(seconds / 3600);
+      const minutes = Math.floor((seconds % 3600) / 60);
+      const secs = seconds % 60;
+      return `${hours > 0 ? hours + ':' : ''}${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    // Start expiry timer
+    function startExpiryTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      secondsRemaining = 3600; // Reset to 1 hour
+      
+      timerInterval = setInterval(() => {
+        secondsRemaining--;
+        if (secondsRemaining <= 0) {
+          clearInterval(timerInterval);
+          expiryTimer.textContent = '⏰ Expired';
+          addLog('⏰ Access expired. Please renew connection.');
+          if (!isPaid) {
+            resetConnection();
+          }
+        } else {
+          expiryTimer.textContent = `⏰ Expires in: ${formatTime(secondsRemaining)}`;
+        }
+      }, 1000);
+    }
+
+    // Stop timer
+    function stopTimer() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+    }
+
+    // Reset connection
+    function resetConnection() {
+      linkClicked = false;
+      isConnected = false;
+      isPaid = false;
+      lifetimeAccess = false;
+      paymentOverlay.style.display = 'none';
+      videoStatus.textContent = 'ClearView Stream';
+      accessChip.style.display = 'none';
+      updateStatus('failed', 'Connection expired. Please request a new link.');
+      videoPlaceholder.innerHTML = `
+        <div class="placeholder-icon">⏰</div>
+        <strong>Connection Expired</strong>
+        <span>Request a new link to reconnect with ClearView</span>
+      `;
+    }
+
+    // Open WhatsApp with pre-filled message
+    function openWhatsAppWithMessage(phoneNumber, message) {
+      const formattedNumber = formatPhoneForWhatsApp(phoneNumber);
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappUrl = `https://wa.me/${formattedNumber}?text=${encodedMessage}`;
+      window.open(whatsappUrl, '_blank');
+      addLog(`📲 WhatsApp opened for ${phoneNumber}`);
+      addLog(`📤 ClearView connection request sent. Waiting for response...`);
+    }
+
+    // Update UI with emotional context
+    function updateStatus(status, message) {
+      statusIndicator.className = 'status-indicator ' + status;
+      statusText.textContent = message;
+      
+      if (status === 'connected') {
+        isConnected = true;
+        videoStatus.textContent = '🔴 LIVE STREAM';
+        videoPlaceholder.innerHTML = `
+          <div class="placeholder-icon">🤝</div>
+          <strong>Connected in Trust</strong>
+          <span>Live connection established — transparency in action</span>
+          <span style="color: var(--success);">✓ ClearView WebRTC connection successful</span>
+        `;
+        hopeMessage.style.display = 'block';
+        trustMessage.style.display = 'block';
+      } else if (status === 'locked') {
+        isConnected = false;
+        videoStatus.textContent = '🔒 ACCESS REQUIRED';
+        accessChip.style.display = 'inline-block';
+        accessChip.textContent = '🔒 Access Locked';
+      } else if (status === 'failed') {
+        isConnected = false;
+        videoStatus.textContent = 'ClearView Stream';
+        videoPlaceholder.innerHTML = `
+          <div class="placeholder-icon">💔</div>
+          <strong>Connection Not Accepted</strong>
+          <span>Sometimes trust takes time to rebuild</span>
+          <span style="color: var(--muted);">Keep the conversation going</span>
+        `;
+      } else if (status === 'waiting') {
+        isConnected = false;
+        videoStatus.textContent = 'ClearView Stream';
+        videoPlaceholder.innerHTML = `
+          <div class="placeholder-icon">⏳</div>
+          <strong>Waiting for Their Response...</strong>
+          <span>They need to click the link to accept</span>
+          <span style="font-size: 0.8rem; color: var(--muted);">Patience is part of trust</span>
+        `;
+        waitingMessage.style.display = 'block';
+      } else {
+        isConnected = false;
+        videoStatus.textContent = 'ClearView Stream';
+        videoPlaceholder.innerHTML = `
+          <div class="placeholder-icon">💫</div>
+          <strong>Building a bridge of trust...</strong>
+          <span>Send a connection request to begin</span>
+          <span style="font-size: 0.8rem; color: var(--muted);">ClearView — Transparency creates understanding</span>
+        `;
+      }
+    }
+
+    // Add log with emotional tone
+    function addLog(message) {
+      const logDiv = document.createElement('div');
+      const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      logDiv.textContent = `[${timestamp}] ${message}`;
+      logArea.appendChild(logDiv);
+      logArea.scrollTop = logArea.scrollHeight;
+      while (logArea.children.length > 10) {
+        logArea.removeChild(logArea.firstChild);
+      }
+    }
+
+    // Update phone chip
+    function updatePhoneChip() {
+      phoneChip.textContent = `📱 ${currentPhoneNumber}`;
+    }
+
+    // Update link chip
+    function updateLinkChip() {
+      if (linkGenerated) {
+        linkChip.textContent = `🔗 ${connectionLink.substring(0, 30)}...`;
+        linkChip.style.color = 'var(--accent)';
+      } else {
+        linkChip.textContent = '🔗 Not generated';
+        linkChip.style.color = 'var(--muted)';
+      }
+    }
+
+    // Check URL parameters on load
+    function checkUrlParameters() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const connectParam = urlParams.get('connect');
+      
+      if (connectParam) {
+        addLog('🔗 Connection link detected from URL');
+        addLog(`📱 Someone clicked your ClearView link!`);
+        simulateUserClick();
+      }
+    }
+
+    // Send WhatsApp Link
+    sendWhatsAppBtn.addEventListener('click', () => {
+      currentPhoneNumber = phoneInput.value.trim() || '+1 (555) 123-4567';
+      
+      if (!/^[+]?[\d\s\-\(\)]+$/.test(currentPhoneNumber)) {
+        addLog('❌ Please enter a valid phone number');
+        updateStatus('failed', 'Invalid phone number');
+        return;
+      }
+
+      connectionLink = generateConnectionLink(currentPhoneNumber);
+      linkGenerated = true;
+      linkSent = false;
+      linkClicked = false;
+      isPaid = false;
+      
+      // Update UI
+      generatedLink.textContent = connectionLink;
+      linkPreview.classList.add('show');
+      updatePhoneChip();
+      updateLinkChip();
+      
+      // Update preview link in WhatsApp message
+      previewLink.textContent = connectionLink;
+      previewLink.onclick = () => simulateUserClick();
+      
+      addLog(`🤝 ClearView connection link created with intention`);
+      addLog(`🔗 Link: ${connectionLink}`);
+      addLog(`📱 This link will open ClearView when clicked`);
+      
+      // Open WhatsApp automatically
+      const message = createWhatsAppMessage(connectionLink);
+      openWhatsAppWithMessage(currentPhoneNumber, message);
+      linkSent = true;
+      
+      // Show emotional waiting message
+      updateStatus('waiting', 'Your request is on its way. Trust the process.');
+      waitingMessage.style.display = 'block';
+      addLog('💚 "Every honest step brings you closer to peace of mind."');
+    });
+
+    // Copy Link
+    copyLinkBtn.addEventListener('click', async () => {
+      if (!connectionLink) return;
+      try {
+        await navigator.clipboard.writeText(connectionLink);
+        addLog('📋 Link copied — share it with care');
+      } catch (err) {
+        const textArea = document.createElement('textarea');
+        textArea.value = connectionLink;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        addLog('📋 Link copied (fallback)');
+      }
+    });
+
+    // Open WhatsApp
+    openWhatsAppBtn.addEventListener('click', () => {
+      if (!connectionLink || !currentPhoneNumber) return;
+      const message = createWhatsAppMessage(connectionLink);
+      openWhatsAppWithMessage(currentPhoneNumber, message);
+      linkSent = true;
+      updateStatus('waiting', 'Request sent again. Give them time to respond.');
+    });
+
+    // Simulate User Click (shows payment lock)
+    function simulateUserClick() {
+      if (!linkGenerated && !window.location.search.includes('connect=')) {
+        addLog('⚠️ Create a connection link first');
+        return;
+      }
+
+      if (isPaid && lifetimeAccess) {
+        addLog('🔓 Lifetime access already unlocked');
+        updateStatus('connected', 'Connected! You have lifetime ClearView access.');
+        return;
+      }
+
+      linkClicked = true;
+      addLog('🤝 They clicked the link! Opening up to trust...');
+      addLog('🔒 Premium access required to view live stream');
+      
+      // Show payment overlay
+      paymentOverlay.style.display = 'flex';
+      updateStatus('locked', 'They accepted! Unlock premium ClearView access for $10.');
+      accessChip.style.display = 'inline-block';
+      accessChip.textContent = '🔒 Access Locked - $10';
+      
+      // Start expiry timer
+      startExpiryTimer();
+      addLog('⏰ 1-hour access window started');
+      addLog('💎 One-time payment for lifetime ClearView access');
+    }
+
+    simulateClickBtn.addEventListener('click', simulateUserClick);
+
+    // Pay Now button
+    payNowBtn.addEventListener('click', () => {
+      isPaid = true;
+      lifetimeAccess = true;
+      paymentOverlay.style.display = 'none';
+      stopTimer();
+      
+      updateStatus('connected', 'Payment successful! Lifetime ClearView access unlocked.');
+      accessChip.textContent = '💎 Lifetime Access';
+      accessChip.style.color = 'var(--premium)';
+      videoStatus.textContent = '🔴 LIVE STREAM';
+      
+      premiumMessage.style.display = 'block';
+      addLog('💳 Payment of $10 processed successfully');
+      addLog('💎 Lifetime ClearView access activated');
+      addLog('🔓 Connection will never expire (until they change phones)');
+      
+      // Show live stream
+      videoPlaceholder.innerHTML = `
+        <div class="placeholder-icon">🌟</div>
+        <strong>Live Connection Active</strong>
+        <span>Clear view — no more doubts, just understanding</span>
+        <span style="color: var(--success);">✓ Lifetime ClearView secure stream</span>
+      `;
+      
+      setTimeout(() => {
+        addLog('📹 ClearView live view active — clarity at last');
+      }, 1500);
+    });
+
+    // Preview link click
+    previewLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      simulateUserClick();
+    });
+
+    // Phone input change
+    phoneInput.addEventListener('input', () => {
+      currentPhoneNumber = phoneInput.value;
+      if (linkGenerated) {
+        linkGenerated = false;
+        linkSent = false;
+        linkClicked = false;
+        isPaid = false;
+        lifetimeAccess = false;
+        linkPreview.classList.remove('show');
+        updateLinkChip();
+        updateStatus('idle', 'Take a deep breath. Trust begins with a single step.');
+        addLog('🔄 Starting fresh — new number, new beginning');
+        paymentOverlay.style.display = 'none';
+        accessChip.style.display = 'none';
+        waitingMessage.style.display = 'none';
+        hopeMessage.style.display = 'none';
+        trustMessage.style.display = 'none';
+        premiumMessage.style.display = 'none';
+        stopTimer();
+      }
+    });
+
+    // Floating WhatsApp button
+    whatsappFloat.addEventListener('click', () => {
+      if (linkGenerated && connectionLink && linkSent) {
+        const message = createWhatsAppMessage(connectionLink);
+        openWhatsAppWithMessage(currentPhoneNumber, message);
+        addLog('💚 "Persistence with patience shows genuine care."');
+      } else if (linkGenerated && connectionLink) {
+        const message = createWhatsAppMessage(connectionLink);
+        openWhatsAppWithMessage(currentPhoneNumber, message);
+        linkSent = true;
+        updateStatus('waiting', 'Request sent. Give them time to respond.');
+      } else {
+        sendWhatsAppBtn.click();
+      }
+    });
+
+    // Initialize
+    function init() {
+      updatePhoneChip();
+      updateLinkChip();
+      updateStatus('idle', 'Take a deep breath. Trust begins with a single step.');
+      addLog('🌅 ClearView initialized — your journey begins');
+      addLog('💝 "Healthy relationships are built on honesty."');
+      addLog('📱 Enter their number when you\'re ready');
+      addLog('💎 Lifetime ClearView access available for $10');
+      
+      phoneInput.value = '+1 (555) 123-4567';
+      
+      // Check if someone clicked the link
+      checkUrlParameters();
+    }
+
+    init();
+  })();
+</script>
+</body>
+</html>
